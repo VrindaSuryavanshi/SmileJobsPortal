@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SmileJobPortal</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text1">Fill your information below or\nregister with your social account</string>
+    <string name="text2">Welcomes you! Login to continue\nyour journey with us.</string>
+</resources>
