@@ -4,13 +4,25 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.example.smilejobportal.Activity.MainActivity;
+import com.example.smilejobportal.Activity.Navbar.BookmarkActivity;
+import com.example.smilejobportal.Activity.Navbar.ChatActivity;
+import com.example.smilejobportal.Activity.Navbar.ExploreActivity;
+import com.example.smilejobportal.Activity.Navbar.ProfileActivity;
 import com.example.smilejobportal.Model.JobModel;
 import com.example.smilejobportal.R;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +46,7 @@ public class AdminAddJobDataActivity extends AppCompatActivity {
             jobTypeEditText, modelEditText, experienceEditText, categoryEditText, aboutEditText, descriptionEditText;
     Button uploadJobBtn ,allCandidateList;
 
+    DrawerLayout drawerLayout;
     DatabaseReference jobRef;
 
     FirebaseFunctions mFunctions = FirebaseFunctions.getInstance();
@@ -44,6 +57,20 @@ public class AdminAddJobDataActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_add_job_data);
+
+        drawerLayout = findViewById(R.id.drawerLayout);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.navigationView);
+        navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
+
 
         titleEditText = findViewById(R.id.titleEditText);
         companyEditText = findViewById(R.id.companyEditText);
@@ -179,6 +206,27 @@ public class AdminAddJobDataActivity extends AppCompatActivity {
                         Log.e("PushTest", "Failed: " + e.getMessage())
                 );
     }
+    private boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_home:
+                startActivity(new Intent(this, MainActivity.class));
+                return true;
+            case R.id.nav_explore:
+                startActivity(new Intent(this, ExploreActivity.class));
+                return true;
+            case R.id.nav_bookmark:
+                startActivity(new Intent(this, BookmarkActivity.class));
+                return true;
+            case R.id.nav_chat:
+                startActivity(new Intent(this, ChatActivity.class));
+                return true;
+            case R.id.nav_profile:
+                startActivity(new Intent(this, ProfileActivity.class));
+                return true;
+        }
+        return false;
+    }
+
 
 
 }

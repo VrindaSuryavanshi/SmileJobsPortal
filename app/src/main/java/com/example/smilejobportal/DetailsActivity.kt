@@ -100,6 +100,8 @@ class DetailsActivity : AppCompatActivity() {
         binding.viewpager.adapter=adapter
         binding.tabLayout.setupWithViewPager(binding.viewpager)
     }
+
+
     private class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm){
         private val fragmentList = arrayListOf<Fragment>()
         private val fragmentTitleList = arrayListOf<String>()

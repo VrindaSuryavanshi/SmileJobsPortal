@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_candidate_list"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="12dp"
-    android:background="@android:color/white">
+    android:layout_height="match_parent">
 
-    <!-- Header Section -->
+    <!-- Main Content -->
     <LinearLayout
         android:id="@+id/textV"
         android:layout_width="match_parent"
@@ -15,20 +15,30 @@
         android:gravity="center"
         android:layout_alignParentTop="true">
 
-        <TextView
+        <!-- Toolbar -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:title="Apply Job"
             android:text="Candidate List"
             android:textAlignment="center"
             android:textSize="12sp"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:background="@color/purple"
             android:padding="10dp"
-            android:layout_marginBottom="8dp" />
-    </LinearLayout>
+            android:layout_marginBottom="8dp"
+            app:titleTextColor="@android:color/white" />
+<RelativeLayout
+    android:id="@+id/activity_candidate_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="12dp"
+    android:background="@android:color/white">
 
-    <!-- RecyclerView Section -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewCandidates"
         android:layout_width="match_parent"
@@ -36,7 +46,8 @@
         android:layout_below="@id/textV"
         android:layout_above="@id/footerLayout"
         android:clipToPadding="false"
-        android:paddingBottom="60dp" />
+        android:paddingBottom="60dp"
+        tools:ignore="NotSibling" />
 
     <!-- Footer Section -->
     <LinearLayout
@@ -64,5 +75,19 @@
             android:background="@drawable/grey_bg"
             android:visibility="gone" />
     </LinearLayout>
-
 </RelativeLayout>
+    </LinearLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemTextAppearance="@style/NavigationDrawerItemText"
+        app:itemIconTint="@color/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"
+        app:itemVerticalPadding="12dp"
+        android:background="@color/white"/>
+</androidx.drawerlayout.widget.DrawerLayout>
