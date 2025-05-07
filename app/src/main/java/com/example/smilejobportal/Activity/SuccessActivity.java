@@ -34,7 +34,7 @@ public class SuccessActivity extends AppCompatActivity {
         getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         getWindow().setDimAmount(0.5f);
         new Handler().postDelayed(() -> {
-            finish(); // Close popup
-        }, 2000); // 2 seconds
+            finish();
+        }, 4000);
     }
 }

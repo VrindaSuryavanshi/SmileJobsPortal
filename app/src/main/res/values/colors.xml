@@ -11,5 +11,10 @@
     <color name="blue">#007EF2</color>
     <color name="yellow">#FFC107</color>
     <color name="grey1">#848282</color>
+    <color name="darkGrey1">#141414</color>
+    <color name="darkGrey2">#222222</color>
+    <color name="green">#4CAF50</color>
+    <color name="nav_item_color">#333333</color>
+
 
 </resources>

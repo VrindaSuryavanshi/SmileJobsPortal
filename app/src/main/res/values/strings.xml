@@ -4,4 +4,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="text1">Fill your information below or\nregister with your social account</string>
     <string name="text2">Welcomes you! Login to continue\nyour journey with us.</string>
+    <string name="default_web_client_id">690433037300-ph31mii2ga4d2n7crkgvp9k78rpdrq3k.apps.googleusercontent.com</string>
+    <string name="navigation_drawer_open">Open navigation</string>
+    <string name="navigation_drawer_close">Close navigation</string>
+
 </resources>

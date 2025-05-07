@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:layout_marginTop="32dp">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,7 +74,7 @@
 
         <EditText
             android:id="@+id/aboutEditText"
-            android:hint="About Job"
+            android:hint="Skills Required"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minLines="3" />
@@ -90,6 +89,12 @@
         <Button
             android:id="@+id/uploadJobBtn"
             android:text="Upload Job"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"/>
+        <Button
+            android:id="@+id/allCandidateList"
+            android:text="All Candidate List"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"/>

@@ -15,54 +15,83 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmileJobPortal"
         tools:targetApi="31">
+
+        <service
+            android:name=".Service.FirebaseMessagingServiceNotification"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".AdminPanel.CandidateListActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".Activity.Navbar.ExploreActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".Activity.Navbar.BookmarkActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".Activity.Navbar.ProfileActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".Activity.Navbar.ChatActivity"
+            android:exported="false" />
+
         <activity
             android:name=".Activity.RegistrationActivity"
             android:exported="false" />
+
         <activity
             android:name=".Activity.LoginActivity"
             android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity
             android:name=".AdminPanel.AdminAddJobDataActivity"
-            android:exported="false">
+            android:exported="false" />
 
-        </activity>
         <activity
             android:name=".Activity.SuccessActivity"
             android:exported="false" />
+
         <activity
             android:name=".Activity.SubmitDataToDatabase"
             android:exported="false" />
-        <activity
-            android:name=".Activity.SeeAllActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.VerifyOtp"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.SentOtp"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.OtpActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.PhoneActivity"
-            android:exported="false" />
+
         <activity
             android:name=".DetailsActivity"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="AppLinkUrlError">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="myapp"
+                    android:host="jobdetails" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".Activity.IntroActivity"
             android:exported="false" />
+
         <activity
             android:name=".Activity.MainActivity"
-            android:exported="true" />
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false" />
+
     </application>
 
 </manifest>

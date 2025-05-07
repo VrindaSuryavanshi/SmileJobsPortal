@@ -29,13 +29,6 @@ class CategoryAdapter(private val items:List<String>,val clickListener: ClickLis
 val item=items[position]
     holder.binding.catTxt.text=item
 
-//        holder.binding.root.setOnClickListener{
-//            lastSelectedPosition=selectedPosition
-//            selectedPosition=position
-//            notifyItemChanged(lastSelectedPosition)
-//            notifyItemChanged(selectedPosition)
-//            clickListener.onClick(position.toString())
-//        }
         holder.binding.root.setOnClickListener {
             if (selectedPosition != position) {
                 lastSelectedPosition = selectedPosition

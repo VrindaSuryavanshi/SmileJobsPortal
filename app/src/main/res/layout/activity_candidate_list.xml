@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_candidate_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="12dp"
+    android:background="@android:color/white">
+
+    <!-- Header Section -->
+    <LinearLayout
+        android:id="@+id/textV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Candidate List"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:background="@color/purple"
+            android:padding="10dp"
+            android:layout_marginBottom="8dp" />
+    </LinearLayout>
+
+    <!-- RecyclerView Section -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewCandidates"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/textV"
+        android:layout_above="@id/footerLayout"
+        android:clipToPadding="false"
+        android:paddingBottom="60dp" />
+
+    <!-- Footer Section -->
+    <LinearLayout
+        android:id="@+id/footerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="8dp"
+        android:layout_alignParentBottom="true">
+
+        <ProgressBar
+            android:id="@+id/loadingProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/loadMoreButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Load More"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/white"
+            android:background="@drawable/grey_bg"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</RelativeLayout>

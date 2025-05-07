@@ -1,268 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_marginTop="150dp"
-    android:padding="24dp">
+    android:id="@+id/drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-
-    <ScrollView
-        android:id="@+id/scrollViewMain"
+    <!-- Main Content -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
-        >
+        android:orientation="vertical">
 
-
-
-        <LinearLayout
+        <!-- Toolbar -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp">
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:title="Apply Job"
+            app:titleTextColor="@android:color/white" />
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Details For Apply Job ..."
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/purple" />
-
-
-        </LinearLayout>
-        <LinearLayout
+        <!-- ScrollView content -->
+        <ScrollView
+            android:id="@+id/scrollViewMain"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp"
+            android:padding="24dp">
 
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Company Name  :"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/purple" />
-
-            <TextView
-                android:id="@+id/companyName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Company Name"
-                android:textSize="16sp"
-                android:textColor="@color/purple"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Positon  :"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:textColor="@color/purple" />
-
-            <TextView
-                android:id="@+id/positionName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Position Name"
-                android:textSize="16sp"
-                android:textColor="@color/purple"
-                />
-        </LinearLayout>
-
-
-        <EditText
-            android:id="@+id/fullNameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Full Name" />
-
-        <EditText
-            android:id="@+id/emailEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:inputType="textEmailAddress" />
-
-        <EditText
-            android:id="@+id/contactEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Contact Number"
-            android:inputType="phone" />
-
-        <Button
-            android:id="@+id/submitButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
-            android:text="Submit" />
-
-        <Button
-            android:id="@+id/backJobButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Back To Job Search" />
-    </ScrollView>
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:elevation="3dp"
-        app:layout_constraintBottom_toBottomOf="@+id/scrollViewMain"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_gravity="bottom">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center">
+                android:orientation="vertical"
+                android:padding="16dp">
+
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.2"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/img_home"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        app:srcCompat="@drawable/home" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="16dp">
 
                     <TextView
-                        android:id="@+id/txt_home"
-                        android:layout_width="match_parent"
+                        android:id="@+id/textView1"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Home"
-                        android:textAlignment="center"
-                        android:textColor="@color/darkGrey" />
+                        android:layout_weight="1"
+                        android:text="Company Name :"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/purple" />
+
+                    <TextView
+                        android:id="@+id/companyName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Company Name"
+                        android:textSize="17sp"
+                        android:textColor="@color/purple" />
                 </LinearLayout>
 
+                <!-- Position Name -->
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.2"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/img_explorer"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        app:srcCompat="@drawable/explorer" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="12dp">
 
                     <TextView
-                        android:id="@+id/txt_explorer"
-                        android:layout_width="match_parent"
+                        android:id="@+id/textView2"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Explore"
-                        android:textAlignment="center"
-                        android:textColor="@color/darkGrey" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.2"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/img_bookmark"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        app:srcCompat="@drawable/bookmark" />
+                        android:layout_weight="1"
+                        android:text="Position :"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/purple" />
 
                     <TextView
-                        android:id="@+id/txt_bookmark"
-                        android:layout_width="match_parent"
+                        android:id="@+id/positionName"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Bookmark"
-                        android:textAlignment="center"
-                        android:textColor="@color/darkGrey" />
+                        android:layout_weight="1"
+                        android:text="Position Name"
+                        android:textSize="17sp"
+                        android:textColor="@color/purple" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.2"
-                    android:orientation="vertical">
+                <!-- Input fields -->
+                <EditText
+                    android:id="@+id/fullNameEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:hint="Full Name" />
 
-                    <ImageView
-                        android:id="@+id/img_chat"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        app:srcCompat="@drawable/chat" />
+                <EditText
+                    android:id="@+id/emailEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress" />
 
-                    <TextView
-                        android:id="@+id/txt_chat"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Chat"
-                        android:textAlignment="center"
-                        android:textColor="@color/darkGrey" />
-                </LinearLayout>
+                <EditText
+                    android:id="@+id/contactEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Contact Number"
+                    android:inputType="phone" />
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.2"
-                    android:orientation="vertical">
+                <!-- Buttons -->
+                <Button
+                    android:id="@+id/submitButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="Submit" />
 
-                    <ImageView
-                        android:id="@+id/img_profile"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        app:srcCompat="@drawable/profile" />
+                <Button
+                    android:id="@+id/backJobButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Cancel" />
 
-                    <TextView
-                        android:id="@+id/txt_profile"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Profile"
-                        android:textAlignment="center"
-                        android:textColor="@color/darkGrey" />
-                </LinearLayout>
             </LinearLayout>
-        </com.google.android.material.bottomnavigation.BottomNavigationView>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </ScrollView>
+    </LinearLayout>
 
-</LinearLayout>
+    <!-- Navigation Drawer -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemTextAppearance="@style/NavigationDrawerItemText"
+        app:itemIconTint="@color/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"
+        app:itemVerticalPadding="12dp"
+        android:background="@color/white"/>
+
+</androidx.drawerlayout.widget.DrawerLayout>

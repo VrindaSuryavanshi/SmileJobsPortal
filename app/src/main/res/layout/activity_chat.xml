@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chatLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.Navbar.ChatActivity"
+    >
+
+    <!-- Chat messages list -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@+id/messageInputLayout"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="90dp"
+        android:padding="16dp" />
+
+    <!-- Message input area -->
+    <LinearLayout
+        android:id="@+id/messageInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottomNavigation"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="#EEEEEE">
+
+        <EditText
+            android:id="@+id/editTextMessage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:hint="Type a message"
+            android:background="@android:drawable/edit_text"
+            android:padding="8dp" />
+
+        <Button
+            android:id="@+id/buttonSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <!-- Bottom Navigation -->
+    <include
+        android:id="@+id/bottomNavigation"
+        layout="@layout/bottom_navbar_menu"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

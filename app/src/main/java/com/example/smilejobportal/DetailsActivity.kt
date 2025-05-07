@@ -3,6 +3,8 @@ package com.example.smilejobportal
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -18,12 +20,27 @@ import com.example.smilejobportal.databinding.ActivityDetailsBinding
 class DetailsActivity : AppCompatActivity() {
     lateinit var binding: ActivityDetailsBinding
     private lateinit var item: JobModel
+    private var jobId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        jobId = intent.getStringExtra("jobId")
+
+        // Share button logic
+        val shareButton: ImageView = findViewById(R.id.imageView8)
+        shareButton.setOnClickListener {
+            shareJobDeepLink()
+        }
+
+        if (Intent.ACTION_VIEW == intent.action) {
+            intent.data?.let { uri ->
+                jobId = uri.getQueryParameter("id")
+            }
+        }
         window.setFlags(
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
@@ -37,9 +54,9 @@ class DetailsActivity : AppCompatActivity() {
         binding.jobTitleTxt.text=item.title
         binding.companyTxt.text=item.company
         binding.locationTxt.text=item.location
-        binding.jobTypeTxt.text=item.time
+        binding.jobTypeTxt.text=item.jobType
         binding.workModeTxt.text=item.model
-        binding.levelTxt.text=item.level
+        binding.levelTxt.text=item.experience
         binding.salaryTxt.text=item.salary
 
         val dreawableResourceId=resources.getIdentifier(item.picUrl,"drawable",packageName)
@@ -97,5 +114,20 @@ class DetailsActivity : AppCompatActivity() {
         override fun getPageTitle(position: Int): CharSequence = fragmentTitleList[position]
 
     }
+
+    private fun shareJobDeepLink() {
+        if (jobId != null) {
+            val deepLink = "SmileJobPortal://jobdetails?id=$jobId"
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_SUBJECT, "Check out this job")
+                putExtra(Intent.EXTRA_TEXT, "Check out this opportunity:\n$deepLink")
+            }
+            startActivity(Intent.createChooser(shareIntent, "Share job via"))
+        } else {
+            Toast.makeText(this, "Job ID not available", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
 }

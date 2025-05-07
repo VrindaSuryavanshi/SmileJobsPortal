@@ -11,14 +11,15 @@ data class JobModel(
     val title: String = "",
     val company: String = "",
     val picUrl: String = "",
-    val time: String = "",
+    val jobType: String = "",
     val model: String = "",
-    val level: String = "",
+    val experience: String = "",
     val location: String = "",
     val salary: String = "",
     val category: String = "",
     val about: String = "",
     val description: String = "",
+    val timestamp: Long = System.currentTimeMillis()
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
@@ -32,7 +33,8 @@ data class JobModel(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readString() ?: ""
+        parcel.readString() ?: "",
+        parcel.readLong()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -40,14 +42,15 @@ data class JobModel(
         parcel.writeString(title)
         parcel.writeString(company)
         parcel.writeString(picUrl)
-        parcel.writeString(time)
+        parcel.writeString(jobType)
         parcel.writeString(model)
-        parcel.writeString(level)
+        parcel.writeString(experience)
         parcel.writeString(location)
         parcel.writeString(salary)
         parcel.writeString(category)
         parcel.writeString(about)
         parcel.writeString(description)
+        parcel.writeLong(timestamp)
     }
 
     override fun describeContents(): Int = 0

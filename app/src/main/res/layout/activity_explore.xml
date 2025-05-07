@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress ALL -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.Navbar.ExploreActivity">
+
+    <!-- Scrollable content -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollViewMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottomNavigation"
+        android:layout_marginTop="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="100dp"> <!-- To avoid content getting hidden behind navbar -->
+
+            <!-- Purple Header -->
+
+
+            <!-- Categories Section -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewCategoryExplore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:nestedScrollingEnabled="false"/>
+
+            <ProgressBar
+                android:id="@+id/progressBarCategoryExplore"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"/>
+
+            <!-- Recent Jobs Section -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewExplore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:layout_marginTop="16dp"
+                android:nestedScrollingEnabled="false"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom Navigation Bar -->
+    <include
+        android:id="@+id/bottomNavigation"
+        layout="@layout/bottom_navbar_menu"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>
+
+
