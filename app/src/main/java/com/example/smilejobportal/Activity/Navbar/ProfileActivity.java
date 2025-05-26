@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.smilejobportal.Activity.LoginActivity;
 import com.example.smilejobportal.Activity.MainActivity;
+import com.example.smilejobportal.Activity.SettingsActivity;
 import com.example.smilejobportal.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
@@ -38,6 +39,8 @@ public class ProfileActivity extends AppCompatActivity {
     private TextInputEditText nameEditText, emailEditText;
     private TextView  resumeFilenameText;
     private TextInputEditText bioEditText, educationEditText;
+    private ImageView backButton;
+
     private Uri selectedImageUri, selectedResumeUri;
 
     private FirebaseAuth auth;
@@ -62,14 +65,23 @@ public class ProfileActivity extends AppCompatActivity {
         educationEditText = findViewById(R.id.editEducation);
         resumeFilenameText = findViewById(R.id.resumeFileName);
 
-        findViewById(R.id.backButton).setOnClickListener(v -> onBackPressed());
+        findViewById(R.id.backbtn).setOnClickListener(v -> {
+            Toast.makeText(this, "Back Button Clicked", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        });
+
         findViewById(R.id.uploadResumeText).setOnClickListener(v -> openResumePicker());
         findViewById(R.id.profileImage).setOnClickListener(v -> openImagePicker());
         findViewById(R.id.btnSaveProfile).setOnClickListener(v -> uploadProfileData());
 
         findViewById(R.id.navSettingsLayout).setOnClickListener(v -> {
-            // Start your Settings activity here
-            Toast.makeText(this, "Settings Clicked", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+
         });
 
         findViewById(R.id.navShareAppLayout).setOnClickListener(v -> {
@@ -85,6 +97,7 @@ public class ProfileActivity extends AppCompatActivity {
             finishAffinity();
             startActivity(new Intent(this, LoginActivity.class));
         });
+
 
         loadUserProfile();
         setupBottomNav();
@@ -226,7 +239,9 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
         finish();
     }
 }

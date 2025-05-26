@@ -24,12 +24,12 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.messaging.FirebaseMessaging
 
-
 class LoginActivity : AppCompatActivity() {
+
     private lateinit var viewModel: LoginViewModel
     private lateinit var googleSignInClient: GoogleSignInClient
-    private val RC_SIGN_IN = 9001
 
+    // Google Sign-In result launcher
     private val googleSignInResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -46,6 +46,16 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // ✅ EARLY REDIRECT: If user is already logged in, go to MainActivity and skip showing login screen
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            startActivity(Intent(this, MainActivity::class.java))
+            overridePendingTransition(0, 0) // optional: no animation
+            finish()
+            return
+        }
+
+        // Show login screen
         setContentView(R.layout.activity_login)
 
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
@@ -56,16 +66,19 @@ class LoginActivity : AppCompatActivity() {
         val forgotPassword = findViewById<TextView>(R.id.forgotPasswordText)
         val signUp = findViewById<TextView>(R.id.signUpBtn)
         val rememberMe = findViewById<CheckBox>(R.id.rememberMeCheckBox)
+        val googleSignInBtn = findViewById<ImageView>(R.id.googleSignInBtn)
 
+        // SharedPreferences for Remember Me
         val sharedPref = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
         val savedEmail = sharedPref.getString("email", "")
         val savedPassword = sharedPref.getString("password", "")
 
-        // Autofill if data saved
+        // Autofill saved credentials
         email.setText(savedEmail)
         password.setText(savedPassword)
         rememberMe.isChecked = savedEmail!!.isNotEmpty()
 
+        // Email/password login
         loginBtn.setOnClickListener {
             val emailText = email.text.toString()
             val passwordText = password.text.toString()
@@ -75,14 +88,14 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Check if the login is for the admin account
+            // Shortcut for admin access
             if (emailText == "admin" && passwordText == "admin123") {
                 startActivity(Intent(this, AdminAddJobDataActivity::class.java))
                 finish()
                 return@setOnClickListener
             }
 
-            // Normal login
+            // Normal user login
             viewModel.login(emailText, passwordText) { success, message ->
                 if (success) {
                     if (rememberMe.isChecked) {
@@ -96,7 +109,10 @@ class LoginActivity : AppCompatActivity() {
                     }
 
                     startActivity(Intent(this, MainActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    finish()
 
+                    // Save FCM token to database
                     FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
                         FirebaseAuth.getInstance().uid?.let { uid ->
                             FirebaseDatabase.getInstance().getReference("users")
@@ -106,46 +122,49 @@ class LoginActivity : AppCompatActivity() {
                         }
                     }
 
-
-
-                    finish()
                 } else {
                     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
                 }
             }
         }
 
-        // Set up Google Sign-In
+        // Google Sign-In setup
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        findViewById<ImageView>(R.id.googleSignInBtn).setOnClickListener {
+        googleSignInBtn.setOnClickListener {
             val signInIntent = googleSignInClient.signInIntent
             googleSignInResult.launch(signInIntent)
         }
 
+        // Sign-up and Forgot Password
         signUp.setOnClickListener {
             startActivity(Intent(this, RegistrationActivity::class.java))
         }
 
         forgotPassword.setOnClickListener {
-            viewModel.forgotPassword(email.text.toString()) { success, message ->
-                val msg = if (success) "Reset link sent to email" else message
-                Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+            val emailText = email.text.toString()
+            if (emailText.isEmpty()) {
+                Toast.makeText(this, "Enter your email to reset password", Toast.LENGTH_SHORT).show()
+            } else {
+                viewModel.forgotPassword(emailText) { success, message ->
+                    val msg = if (success) "Reset link sent to email" else message
+                    Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
 
-    fun firebaseAuthWithGoogle(idToken: String) {
+    private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     startActivity(Intent(this, MainActivity::class.java))
+                    overridePendingTransition(0, 0)
                     finish()
                 } else {
                     Toast.makeText(this, "Authentication Failed", Toast.LENGTH_SHORT).show()

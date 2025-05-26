@@ -112,6 +112,23 @@
                     android:hint="Contact Number"
                     android:inputType="phone" />
 
+                <TextView
+                    android:id="@+id/uploadResumeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Upload Resume (PDF/DOC)"
+                    android:textSize="16sp"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/resumeFileName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No file selected"
+                    android:textColor="@color/darkGrey"
+                    android:layout_marginTop="4dp" />
+
                 <!-- Buttons -->
                 <Button
                     android:id="@+id/submitButton"

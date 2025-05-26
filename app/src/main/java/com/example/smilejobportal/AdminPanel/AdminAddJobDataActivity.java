@@ -1,5 +1,7 @@
 package com.example.smilejobportal.AdminPanel;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.smilejobportal.Activity.LatestJobsActivity;
 import com.example.smilejobportal.Activity.MainActivity;
 import com.example.smilejobportal.Activity.Navbar.BookmarkActivity;
 import com.example.smilejobportal.Activity.Navbar.ChatActivity;
@@ -23,6 +26,7 @@ import com.example.smilejobportal.Activity.Navbar.ProfileActivity;
 import com.example.smilejobportal.Model.JobModel;
 import com.example.smilejobportal.R;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,7 +48,9 @@ public class AdminAddJobDataActivity extends AppCompatActivity {
 
     EditText titleEditText, companyEditText , companyLogoText, salaryEditText, locationEditText,
             jobTypeEditText, modelEditText, experienceEditText, categoryEditText, aboutEditText, descriptionEditText;
-    Button uploadJobBtn ,allCandidateList;
+
+    TextInputEditText hrContactEditText;
+    Button uploadJobBtn ;
 
     DrawerLayout drawerLayout;
     DatabaseReference jobRef;
@@ -83,25 +89,24 @@ public class AdminAddJobDataActivity extends AppCompatActivity {
         categoryEditText = findViewById(R.id.categoryEditText);
         aboutEditText = findViewById(R.id.aboutEditText);
         descriptionEditText = findViewById(R.id.descriptionEditText);
+        hrContactEditText = findViewById(R.id.hrContactEditText);
 
         uploadJobBtn = findViewById(R.id.uploadJobBtn);
-        allCandidateList = findViewById(R.id.allCandidateList);
+//        allCandidateList = findViewById(R.id.allCandidateList);
 
         jobRef = FirebaseDatabase.getInstance().getReference("jobs");
 
         uploadJobBtn.setOnClickListener(view ->
 
                 uploadJob()
-//                testNotificationManually()
         );
-        allCandidateList.setOnClickListener(view -> startActivity(new Intent(AdminAddJobDataActivity.this, CandidateListActivity.class)));
+//        allCandidateList.setOnClickListener(view -> startActivity(new Intent(AdminAddJobDataActivity.this, CandidateListActivity.class)));
 
     }
-
     private void uploadJob() {
         String title = titleEditText.getText().toString();
         String company = companyEditText.getText().toString();
-        String picUrl =companyLogoText.getText().toString();
+        String picUrl = companyLogoText.getText().toString();
         String salary = salaryEditText.getText().toString();
         String location = locationEditText.getText().toString();
         String jobType = jobTypeEditText.getText().toString();
@@ -110,41 +115,35 @@ public class AdminAddJobDataActivity extends AppCompatActivity {
         String category = categoryEditText.getText().toString();
         String about = aboutEditText.getText().toString();
         String description = descriptionEditText.getText().toString();
-        long timestamp = System.currentTimeMillis();
+        String hrContact = hrContactEditText.getText().toString();
 
-        if (title.isEmpty() || company.isEmpty()) {
-            Toast.makeText(this, "Job title and company are required", Toast.LENGTH_SHORT).show();
+        if (title.isEmpty() || company.isEmpty() || picUrl.isEmpty() || salary.isEmpty()
+                || location.isEmpty() || jobType.isEmpty() || model.isEmpty()
+                || experience.isEmpty() || category.isEmpty() || about.isEmpty()
+                || description.isEmpty() || hrContact.isEmpty()) {
+            Toast.makeText(this, "All job fields are required", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        String jobId = jobRef.push().getKey();
+        long timestamp = System.currentTimeMillis();
 
-        AtomicReference<String> jobId = new AtomicReference<>(jobRef.push().getKey());
-
-        assert jobId.get() != null;
-
+        assert jobId != null;
         JobModel job = new JobModel(
-                jobId.get(), title, company, picUrl, jobType, model, experience,
-                location, salary, category, about, description, timestamp
+                jobId, title, company, picUrl, jobType, model, experience,
+                location, salary, category, about, description, hrContact, timestamp
         );
 
-        jobRef.child(jobId.get()).setValue(job).addOnSuccessListener(unused -> {
+        jobRef.child(jobId).setValue(job).addOnSuccessListener(unused -> {
             Toast.makeText(this, "Job Uploaded Successfully!", Toast.LENGTH_SHORT).show();
-             jobId.set(jobRef.push().getKey());
-            HashMap<String, Object> jobData = new HashMap<>();
-            jobData.put("title", "Software Developer");
-            jobData.put("description", "Exciting role for freshers.");
-            jobData.put("timestamp", ServerValue.TIMESTAMP);
-
-            jobRef.child(jobId.get()).setValue(jobData)
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(AdminAddJobDataActivity.this, "Job posted!", Toast.LENGTH_SHORT).show();
-                    });
-            sendNotificationToAllUsers(title,description);
-
+            sendNotificationToAllUsers(title, description);
+            startActivity(new Intent(AdminAddJobDataActivity.this, LatestJobsActivity.class));
+            finish();
         }).addOnFailureListener(e ->
                 Toast.makeText(this, "Failed to upload job.", Toast.LENGTH_SHORT).show()
         );
     }
+
 
     private void sendNotificationToAllUsers(String title, String body) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
@@ -187,42 +186,18 @@ public class AdminAddJobDataActivity extends AppCompatActivity {
                 });
     }
 
-    private void testNotificationManually() {
-        FirebaseMessaging.getInstance().getToken()
-                .addOnSuccessListener(token -> Log.d("FCM_TOKEN", "Token: " + token));
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("token", "YOUR_DEVICE_TOKEN_HERE");
-        data.put("title", "Test Job Notification");
-        data.put("body", "This is a test push from admin app!");
-
-        FirebaseFunctions.getInstance()
-                .getHttpsCallable("sendNotification")
-                .call(data)
-                .addOnSuccessListener(httpsCallableResult ->
-                        Log.d("PushTest", "Notification sent: " + httpsCallableResult.getData())
-                )
-                .addOnFailureListener(e ->
-                        Log.e("PushTest", "Failed: " + e.getMessage())
-                );
-    }
     private boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nav_home:
-                startActivity(new Intent(this, MainActivity.class));
+            case R.id.jobs_list:
+                startActivity(new Intent(this, AdminManageJobsActivity.class));
                 return true;
-            case R.id.nav_explore:
-                startActivity(new Intent(this, ExploreActivity.class));
+            case R.id.candidate_list:
+                startActivity(new Intent(this, CandidateListActivity.class));
                 return true;
-            case R.id.nav_bookmark:
-                startActivity(new Intent(this, BookmarkActivity.class));
+            case R.id.users_list:
+                startActivity(new Intent(this, AllUsersActivity.class));
                 return true;
-            case R.id.nav_chat:
-                startActivity(new Intent(this, ChatActivity.class));
-                return true;
-            case R.id.nav_profile:
-                startActivity(new Intent(this, ProfileActivity.class));
-                return true;
+
         }
         return false;
     }

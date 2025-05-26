@@ -44,6 +44,8 @@ android {
 }
 
 dependencies {
+    implementation("androidx.core:core-ktx:1.9.0")
+
     // Firebase BOM – controls Firebase versions centrally
     implementation(platform("com.google.firebase:firebase-bom:33.12.0"))
 
@@ -65,6 +67,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
     implementation("androidx.activity:activity-ktx:1.3.1")
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+
 
 
     // AndroidX & Jetpack (from libs.versions.toml)
@@ -77,6 +81,8 @@ dependencies {
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.recyclerview)
 
     // Testing
     testImplementation(libs.junit)

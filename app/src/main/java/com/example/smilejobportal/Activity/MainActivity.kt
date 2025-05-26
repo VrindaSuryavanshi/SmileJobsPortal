@@ -6,12 +6,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.smilejobportal.Activity.Navbar.BookmarkActivity
 import com.example.smilejobportal.Activity.Navbar.ChatActivity
@@ -47,17 +49,35 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rootLayout)) { _, insets ->
+            val bottomInset = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+            findViewById<BottomNavigationView>(R.id.bottomNavigation).setPadding(0, 0, 0, bottomInset)
+            insets
+        }
+
+
+        binding.settings.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
         notificationBell = findViewById(R.id.notificationBell)
         notificationBadge = findViewById(R.id.notificationBadge)
 
         userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         jobsRef = FirebaseDatabase.getInstance().getReference("jobs")
 
+        binding.editTextText.setOnTouchListener { _, _ ->
+            startActivity(Intent(this, SearchActivity::class.java))
+            true
+        }
 
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        )
+        binding.locationSp.setOnTouchListener { _, _ ->
+            startActivity(Intent(this, SearchActivity::class.java))
+            true
+        }
+
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         val seeAll = findViewById<TextView>(R.id.textViewSeeAll)
         val seeAllRecent = findViewById<TextView>(R.id.textViewSeeAllRecent)
 
@@ -77,6 +97,7 @@ class MainActivity : AppCompatActivity() {
 //            overridePendingTransition(0, 0)
 //        }
 
+
         setupBottomNav()
         initLocation()
         initCategory()
@@ -86,11 +107,12 @@ class MainActivity : AppCompatActivity() {
 
         notificationBell.setOnClickListener {
             markJobsAsSeen()
-            startActivity(Intent(this, ExploreActivity::class.java))
+            startActivity(Intent(this, LatestJobsActivity::class.java))
             overridePendingTransition(0, 0)
         }
 
         checkForNewJobs()
+
     }
     private fun updateNotificationBadge() {
         val prefs = getSharedPreferences("notifications", Context.MODE_PRIVATE)
@@ -142,9 +164,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initRecent(cat: String) {
+        binding.progressBarCategory.visibility = View.VISIBLE
+
         binding.recyclerViewRecent.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        binding.progressBarSuggestedJob.visibility = View.VISIBLE
 
         mainViewModel.jobList.observe(this) { jobList ->
             val filtered = if (cat == "0" || cat == "all") {
@@ -153,7 +176,7 @@ class MainActivity : AppCompatActivity() {
                 jobList.filter { it.category == cat }.sortedByDescending { it.timestamp }
             }
             binding.recyclerViewRecent.adapter = JobAdapter(filtered)
-            binding.progressBarSuggestedJob.visibility = View.GONE
+            binding.progressBarCategory.visibility = View.GONE
         }
     }
 
@@ -163,7 +186,10 @@ class MainActivity : AppCompatActivity() {
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
         mainViewModel.jobList.observe(this) { jobList ->
-            binding.recyclerViewSuggestedJob.adapter = JobAdapter(jobList.sortedByDescending { it.timestamp })
+            binding.recyclerViewSuggestedJob.adapter = JobAdapter(
+                jobList.sortedByDescending { it.timestamp },
+
+            )
             binding.progressBarSuggestedJob.visibility = View.GONE
         }
     }

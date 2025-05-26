@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/jobs_list"
+        android:icon="@drawable/job_type"
+        android:title="Jobs List" />
+
+    <item
+        android:id="@+id/candidate_list"
+        android:icon="@drawable/single_user_icon"
+        android:title="Candidates List" />
+
+    <item
+        android:id="@+id/users_list"
+        android:icon="@drawable/multi_user"
+        android:title="Users List" />
+
+</menu>

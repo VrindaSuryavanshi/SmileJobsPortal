@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.smilejobportal.DetailsActivity
+import com.example.smilejobportal.Activity.DetailsActivity
 import com.example.smilejobportal.Model.JobModel
 import com.example.smilejobportal.R
 import com.example.smilejobportal.databinding.ViewholderJobExploreBinding
@@ -30,6 +30,7 @@ class JobExploreAdapter(private val items: List<JobModel>) : RecyclerView.Adapte
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: Viewholder
                                   , position: Int) {
+
         val item = items[position]
 
         with(holder.binding) {
@@ -47,11 +48,17 @@ class JobExploreAdapter(private val items: List<JobModel>) : RecyclerView.Adapte
                 .into(pic)
 
             if (isBookmarked(holder.itemView.context, item)) {
-                holder.binding.bookmarkImg.setImageResource(R.drawable.bookmark_selected)
+                bookmarkImg.setImageResource(R.drawable.bookmark_selected)
             } else {
-                holder.binding.bookmarkImg.setImageResource(R.drawable.bookmark)
+                bookmarkImg.setImageResource(R.drawable.bookmark)
             }
+
             // Navigate to Details
+            holder.binding.applyButton.setOnClickListener {
+                val intent = Intent(context, DetailsActivity::class.java)
+                intent.putExtra("object", item)
+                context.startActivity(intent)
+            }
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, DetailsActivity::class.java)
                 intent.putExtra("object", item)
@@ -70,7 +77,6 @@ class JobExploreAdapter(private val items: List<JobModel>) : RecyclerView.Adapte
                 }
             }
 
-//                imageView6.setImageResource(R.drawable.bookmark_selected)
         }
     }
 

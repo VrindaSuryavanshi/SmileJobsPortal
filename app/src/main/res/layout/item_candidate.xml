@@ -1,176 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:layout_margin="12dp"
     android:padding="16dp"
-    android:layout_margin="8dp"
-    android:gravity="center_horizontal"
-    android:background="@color/lightGrey"
-    android:elevation="2dp">
+    android:backgroundTint="@android:color/white"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp">
 
-    <!-- Candidate Info Section -->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="left">
+        android:padding="8dp"
+        android:gravity="center_horizontal">
 
-        <!-- Full Name Row -->
+        <!-- Candidate Info Section -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-            <TextView
-                android:layout_width="70dp"
+            android:orientation="vertical"
+            android:paddingHorizontal="8dp"
+            android:layout_marginBottom="8dp">
+
+            <!-- Full Name Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Full Name : "
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-            <TextView
-                android:id="@+id/nameTextView"
+                android:orientation="horizontal"
+                android:gravity="start"
+                android:layout_marginBottom="4dp">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Full Name:"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/nameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ABC"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Contact Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="start"
+                android:layout_marginBottom="4dp">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Contact:"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/contactTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1234567890"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Email Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="start"
+                android:layout_marginBottom="4dp">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Email:"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/emailTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="email@example.com"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Company Name Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="start"
+                android:layout_marginBottom="4dp">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Company:"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/companyNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Company ABC"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Position Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="start">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Position:"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/positionNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Software Engineer"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- View Resume Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/viewResumeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ABC"
-                android:textColor="@color/black"
-                android:layout_marginStart="8dp"
-                android:textSize="14sp" />
+                android:text="View Resume"
+                android:textSize="12sp"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                app:cornerRadius="8dp"
+                app:iconPadding="4dp"
+                android:minHeight="40dp"
+                android:minWidth="120dp"
+                app:backgroundTint="#4CAF50"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
 
-        <!-- Contact Row -->
+        <!-- Buttons Section -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center">
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:text="Contact : "
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-            <TextView
-                android:id="@+id/contactTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1234567890"
-                android:layout_marginStart="8dp"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-        </LinearLayout>
+            android:gravity="center"
+            android:layout_gravity="center">
 
-        <!-- Email Row -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:text="Email : "
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-            <TextView
-                android:id="@+id/emailTextView"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/callButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="email@example.com"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-        </LinearLayout>
+                android:text="Call"
+                android:textSize="12sp"
+                android:layout_marginEnd="8dp"
+                app:cornerRadius="8dp"
+                app:backgroundTint="#2196F3"
+                android:textColor="#FFFFFF"
+                android:minWidth="80dp"
+                android:minHeight="40dp" />
 
-        <!-- Company Name Row -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-            <TextView
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:text="Company : "
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-            <TextView
-                android:id="@+id/companyNameTextView"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/contactedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Company ABC"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-        </LinearLayout>
+                android:text="Contacted"
+                android:textSize="12sp"
+                android:layout_marginEnd="8dp"
+                app:cornerRadius="8dp"
+                android:minWidth="100dp"
+                android:minHeight="40dp" />
 
-        <!-- Position Row -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:text="Position : "
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-            <TextView
-                android:id="@+id/positionNameTextView"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/deleteButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Software Engineer"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:text="Delete"
+                android:textSize="12sp"
+                app:cornerRadius="8dp"
+                app:backgroundTint="#F44336"
+                android:textColor="#FFFFFF"
+                android:minWidth="80dp"
+                android:minHeight="40dp" />
         </LinearLayout>
     </LinearLayout>
-
-    <!-- Buttons Section -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="12dp">
-
-        <Button
-            android:id="@+id/callButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Call"
-            android:textSize="12sp"
-            android:backgroundTint="#2196F3"
-            android:textColor="#FFFFFF"
-            android:minHeight="32dp"
-            android:minWidth="64dp"
-            android:layout_marginEnd="8dp" />
-
-        <Button
-            android:id="@+id/contactedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Contacted"
-            android:textSize="12sp"
-            android:minHeight="32dp"
-            android:minWidth="64dp"
-            android:layout_marginEnd="8dp" />
-
-        <Button
-            android:id="@+id/deleteButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete"
-            android:textSize="12sp"
-            android:backgroundTint="#F44336"
-            android:textColor="#FFFFFF"
-            android:minHeight="32dp"
-            android:minWidth="64dp" />
-    </LinearLayout>
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

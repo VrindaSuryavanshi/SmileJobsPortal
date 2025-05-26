@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
     tools:context=".Activity.Navbar.ProfileActivity">
 
     <ImageView
-        android:id="@+id/backButton"
+        android:id="@+id/backbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/circle_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp"
         app:srcCompat="@drawable/back" />
 
 
@@ -60,10 +63,6 @@
             </FrameLayout>
 
 
-
-
-
-
             <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editName"
                     android:layout_width="wrap_content"
@@ -71,7 +70,7 @@
                     android:layout_gravity="center"
                 app:endIconMode="custom"
                 app:endIconDrawable="@drawable/ic_edit1"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/gray_dark" />
             <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editEmail"
                     android:layout_width="wrap_content"
@@ -91,7 +90,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editBio"
-                    android:textColor="@color/black"
+                    android:textColor="@color/gray_dark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -101,11 +100,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Education"
+                app:errorTextColor="@color/gray_dark"
                 android:layout_marginTop="12dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editEducation"
-                    android:textColor="@color/black"
+                    android:textColor="@color/gray_dark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -118,14 +118,14 @@
                 android:layout_marginTop="16dp"
                 android:text="Upload Resume (PDF/DOC)"
                 android:textSize="16sp"
-                android:textColor="@color/black" />
+                android:textColor="@color/gray_dark" />
 
             <TextView
                 android:id="@+id/resumeFileName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No file selected"
-                android:textColor="@color/darkGrey"
+                android:textColor="@color/green"
                 android:layout_marginTop="4dp" />
 
             <!-- Arrow Navigation Options -->
@@ -148,14 +148,14 @@
 
                     <TextView
                         android:id="@+id/navSettings"
-                        android:layout_width="0dp"
+                        android:layout_width="345dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Settings"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
                         android:paddingStart="16dp"
-                        android:paddingEnd="8dp" />
+                        android:paddingEnd="8dp"
+                        android:text="Settings"
+                        android:textColor="@color/gray_dark"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/navSettingsArrow"
@@ -163,7 +163,7 @@
                         android:layout_height="wrap_content"
                         android:text=">"
                         android:textSize="18sp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/gray_dark"
                         android:paddingEnd="16dp" />
                 </LinearLayout>
 
@@ -185,7 +185,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/black"
+                        android:textColor="@color/gray_dark"
                         android:textSize="16sp"
                         android:paddingStart="16dp"
                         android:paddingEnd="8dp" />
@@ -196,7 +196,7 @@
                         android:layout_height="wrap_content"
                         android:text=">"
                         android:textSize="18sp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/gray_dark"
                         android:paddingEnd="16dp" />
                 </LinearLayout>
 
@@ -218,7 +218,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textStyle="bold"
-                        android:textColor="@color/black"
+                        android:textColor="@color/gray_dark"
                         android:textSize="16sp"
                         android:paddingStart="16dp"
                         android:paddingEnd="8dp" />
@@ -230,7 +230,7 @@
                         android:text=">"
                         android:textStyle="bold"
                         android:textSize="18sp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/gray_dark"
                         android:paddingEnd="16dp" />
                 </LinearLayout>
 

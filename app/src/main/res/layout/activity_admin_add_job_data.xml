@@ -103,18 +103,26 @@
             android:layout_height="wrap_content"
             android:minLines="4" />
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/hrContactEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=" Hr's Contact Number"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey1"
+            android:inputType="phone"
+            android:drawableStart="@drawable/baseline_call_24"
+            android:drawableTint="@color/grey1"
+            android:drawablePadding="10dp"/>
+
         <Button
             android:id="@+id/uploadJobBtn"
             android:text="Upload Job"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"/>
-        <Button
-            android:id="@+id/allCandidateList"
-            android:text="All Candidate List"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"/>
+
 
     </LinearLayout>
 </ScrollView>
@@ -128,7 +136,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/bottom_nav_menu"
+        app:menu="@menu/admin_nav_menu"
         app:itemTextAppearance="@style/NavigationDrawerItemText"
         app:itemIconTint="@color/nav_item_color"
         app:itemTextColor="@color/nav_item_color"

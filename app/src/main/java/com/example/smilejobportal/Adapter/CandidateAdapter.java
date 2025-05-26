@@ -1,5 +1,6 @@
 package com.example.smilejobportal.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -19,12 +20,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
-
 public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.CandidateViewHolder> {
 
     private Context context;
     private List<CandidateModel> candidateList;
     private DatabaseReference databaseReference;
+    Button viewResumeButton;
 
     public CandidateAdapter(Context context, List<CandidateModel> candidateList) {
         this.context = context;
@@ -42,11 +43,24 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
     @Override
     public void onBindViewHolder(@NonNull CandidateViewHolder holder, int position) {
         CandidateModel candidate = candidateList.get(position);
+
         holder.nameTextView.setText(candidate.getFullName());
         holder.contactTextView.setText(candidate.getContact());
         holder.emailTextView.setText(candidate.getEmail());
         holder.companyNameTextView.setText(candidate.getCompanyName());
         holder.positionNameTextView.setText(candidate.getPositionName());
+
+        holder.viewResumeButton.setOnClickListener(v -> {
+            String resumeUrl = candidate.getResumeUrl();
+            if (resumeUrl != null && !resumeUrl.isEmpty()) {
+                @SuppressLint("UnsafeImplicitIntentLaunch") Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(resumeUrl));
+                context.startActivity(intent);
+
+            } else {
+                Toast.makeText(context, "No resume available", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Call Button
         holder.callButton.setOnClickListener(v -> {
@@ -79,8 +93,8 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
 
     public static class CandidateViewHolder extends RecyclerView.ViewHolder {
 
-        TextView nameTextView, contactTextView , emailTextView,  companyNameTextView, positionNameTextView;
-        Button callButton, contactedButton, deleteButton;
+        TextView nameTextView, contactTextView , emailTextView, companyNameTextView, positionNameTextView;
+        Button callButton, contactedButton, deleteButton, viewResumeButton;
 
         public CandidateViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -93,6 +107,9 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.Cand
             callButton = itemView.findViewById(R.id.callButton);
             contactedButton = itemView.findViewById(R.id.contactedButton);
             deleteButton = itemView.findViewById(R.id.deleteButton);
+            viewResumeButton = itemView.findViewById(R.id.viewResumeButton);
+            viewResumeButton = itemView.findViewById(R.id.viewResumeButton);
+
         }
     }
 }

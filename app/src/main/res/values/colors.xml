@@ -15,6 +15,8 @@
     <color name="darkGrey2">#222222</color>
     <color name="green">#4CAF50</color>
     <color name="nav_item_color">#333333</color>
-
+    <color name="successGreen">#4CAF50</color>
+    <color name="success_green">#4CAF50</color>
+    <color name="gray_dark">#757575</color>
 
 </resources>

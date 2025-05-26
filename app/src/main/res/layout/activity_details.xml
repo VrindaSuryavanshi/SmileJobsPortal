@@ -6,23 +6,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purple"
-    tools:context=".DetailsActivity">
+    android:fitsSystemWindows="true"
+    tools:context=".Activity.DetailsActivity">
 
     <ScrollView
+        android:id="@+id/detailsScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="48dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
 
                 <ImageView
                     android:id="@+id/imageView8"
@@ -45,7 +46,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/back" />
 
-                <ImageView
+                <TextView
                     android:id="@+id/imageView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -53,19 +54,21 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/imageView8"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/fav" />
+                    android:text="Upload Resume "
+                    android:textColor="@color/gray_dark"
+                     />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:id="@+id/linearLayout2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="64dp"
+                    android:layout_marginTop="48dp"
                     android:background="@drawable/top_corner_white_bg"
                     android:orientation="vertical"
                     app:layout_constraintTop_toTopOf="parent">
@@ -346,18 +349,44 @@
 
                     </LinearLayout>
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/applyJobButton"
-                        style="@android:style/Widget.Button"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@drawable/purple_full_corner"
-                        android:text="Apply Now"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
                         android:layout_margin="8dp"
-                        android:layout_marginBottom="20dp"
-                        android:textColor="@color/white"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        >
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/applyJobButton"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="4dp"
+                            android:background="@drawable/purple_full_corner"
+                            android:text="Apply Now"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/callHrButton"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/btn_green_rounded"
+                            android:text="Call HR"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:drawableStart="@drawable/baseline_call_24"
+                            android:drawablePadding="4dp"
+                            android:paddingStart="24dp"
+                            android:paddingEnd="4dp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

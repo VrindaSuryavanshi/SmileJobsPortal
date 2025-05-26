@@ -38,8 +38,7 @@ public class BookmarkActivity extends AppCompatActivity {
         binding.recyclerViewBookmark.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerViewBookmark.setAdapter(new JobExploreAdapter(bookmarks));
 
-        loadBookmarks();
-        setupBottomNav();
+           setupBottomNav();
     }
 
     @Override

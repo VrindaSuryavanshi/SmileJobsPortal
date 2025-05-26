@@ -19,9 +19,11 @@ data class JobModel(
     val category: String = "",
     val about: String = "",
     val description: String = "",
+    val hrContact: String = "",
     val timestamp: Long = System.currentTimeMillis()
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -44,12 +46,14 @@ data class JobModel(
         parcel.writeString(picUrl)
         parcel.writeString(jobType)
         parcel.writeString(model)
+
         parcel.writeString(experience)
         parcel.writeString(location)
         parcel.writeString(salary)
         parcel.writeString(category)
         parcel.writeString(about)
         parcel.writeString(description)
+        parcel.writeString(hrContact)
         parcel.writeLong(timestamp)
     }
 

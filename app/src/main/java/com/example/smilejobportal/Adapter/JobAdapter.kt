@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.smilejobportal.DetailsActivity
+import com.example.smilejobportal.Activity.DetailsActivity
 import com.example.smilejobportal.Model.JobModel
 import com.example.smilejobportal.R
 import com.example.smilejobportal.databinding.ViewholderJobBinding
@@ -80,7 +80,7 @@ class JobAdapter(private val items: List<JobModel>) : RecyclerView.Adapter<JobAd
 
     }
 
-    override fun getItemCount(): Int {
+      override fun getItemCount(): Int {
 
         return  items.size
     }

@@ -5,9 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.smilejobportal.Activity.MainActivity
 import com.example.smilejobportal.Adapter.CategoryAdapter
@@ -28,10 +30,15 @@ class ExploreActivity : AppCompatActivity() {
             binding = ActivityExploreBinding.inflate(layoutInflater)
             setContentView(binding.root)
 
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-            )
+            ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rootLayout)) { _, insets ->
+                val bottomInset = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+                val bottomNav = findViewById<View>(R.id.bottomNavigation)
+                bottomNav?.setPadding(0, 0, 0, bottomInset)
+                insets
+            }
+
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+
             initRecent("0")
             initCategory()
             setupBottomNav()

@@ -11,10 +11,7 @@
         android:id="@+id/textV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_alignParentTop="true">
-
+        android:orientation="vertical">
         <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -22,14 +19,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:title="Apply Job"
-            android:text="Candidate List"
-            android:textAlignment="center"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:padding="10dp"
-            android:layout_marginBottom="8dp"
+            app:title=" Candidate List "
             app:titleTextColor="@android:color/white" />
 <RelativeLayout
     android:id="@+id/activity_candidate_list"
@@ -37,7 +27,6 @@
     android:layout_height="match_parent"
     android:padding="12dp"
     android:background="@android:color/white">
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewCandidates"
@@ -84,7 +73,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/bottom_nav_menu"
+        app:menu="@menu/admin_nav_menu"
         app:itemTextAppearance="@style/NavigationDrawerItemText"
         app:itemIconTint="@color/nav_item_color"
         app:itemTextColor="@color/nav_item_color"
