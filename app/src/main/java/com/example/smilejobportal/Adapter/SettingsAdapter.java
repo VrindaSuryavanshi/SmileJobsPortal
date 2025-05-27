@@ -6,12 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.smilejobportal.Activity.SettingsOption;
 import com.example.smilejobportal.Model.SettingModel;
 import com.example.smilejobportal.R;
 
@@ -19,22 +17,17 @@ import java.util.List;
 public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
 
     private Context context;
-    private List<SettingModel> settingList;
+    private List<SettingModel> settings;
+    private OnSettingClickListener listener;
 
-    public SettingsAdapter(Context context, List<SettingModel> settingList) {
-        this.context = context;
-        this.settingList = settingList;
+    public interface OnSettingClickListener {
+        void onSettingClick(String actionKey);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView icon;
-        TextView title;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            icon = itemView.findViewById(R.id.settingIcon);
-            title = itemView.findViewById(R.id.settingTitle);
-        }
+    public SettingsAdapter(Context context, List<SettingModel> settings, OnSettingClickListener listener) {
+        this.context = context;
+        this.settings = settings;
+        this.listener = listener;
     }
 
     @NonNull
@@ -43,22 +36,40 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
         View view = LayoutInflater.from(context).inflate(R.layout.settings_item, parent, false);
         return new ViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull SettingsAdapter.ViewHolder holder, int position) {
-        SettingModel setting = settingList.get(position);
+        SettingModel setting = settings.get(position);
         holder.title.setText(setting.getTitle());
 
-        int iconRes = context.getResources().getIdentifier(setting.getIcon(), "drawable", context.getPackageName());
-        if (iconRes != 0) {
-            holder.icon.setImageResource(iconRes);
+        // Dynamically set icon using name from Firebase
+        int iconResId = context.getResources().getIdentifier(
+                setting.getIcon(), "drawable", context.getPackageName());
+        if (iconResId != 0) {
+            holder.icon.setImageResource(iconResId);
         } else {
-            holder.icon.setImageResource(R.drawable.ic_launcher_background); // fallback icon
+            holder.icon.setImageResource(R.drawable.ic_placeholder); // fallback
         }
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onSettingClick(setting.getKey());
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return settingList.size();
+        return settings.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView title;
+        ImageView icon;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            title = itemView.findViewById(R.id.settingTitle);
+            icon = itemView.findViewById(R.id.settingIcon);
+        }
     }
 }

@@ -9,12 +9,24 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/smile_logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmileJobPortal"
         tools:targetApi="31">
+        <activity
+            android:name=".Activity.HelpSupportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.AboutUsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.PrivacyPolicyActivity"
+            android:exported="false" />
         <activity
             android:name=".Activity.SettingsActivity"
             android:exported="false" />
@@ -29,9 +41,6 @@
             android:exported="false" />
         <activity
             android:name=".Activity.LatestJobsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.ResultsOfSerach"
             android:exported="false" />
 
         <service

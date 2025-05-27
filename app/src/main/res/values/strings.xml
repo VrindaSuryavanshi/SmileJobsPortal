@@ -7,5 +7,15 @@
     <string name="default_web_client_id">690433037300-ph31mii2ga4d2n7crkgvp9k78rpdrq3k.apps.googleusercontent.com</string>
     <string name="navigation_drawer_open">Open navigation</string>
     <string name="navigation_drawer_close">Close navigation</string>
+    <string name="benefit_text">Health Insurance \n
+        Flexible Work Hours \n
+        Overtime Pay \n
+        Annual Bonus \n
+        Canteen Allowance \n
+        Travel Allowance \n
+        Internet Allowance \n
+        Laptop \n
+        ESI(Employee Self Insurance)
+    </string>
 
 </resources>

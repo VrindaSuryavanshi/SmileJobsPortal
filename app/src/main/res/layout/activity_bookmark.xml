@@ -25,6 +25,18 @@
                 android:layout_height="match_parent"
                 android:tooltipText="Bookmarked Here....!"/>
 
+            <TextView
+                android:id="@+id/textNoBookmarks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No bookmarks yet"
+                android:textSize="16sp"
+                android:textColor="#808080"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="24dp"
+                />
+
         </LinearLayout>
     </ScrollView>
 

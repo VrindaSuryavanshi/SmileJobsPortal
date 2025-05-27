@@ -6,10 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smilejobportal.Activity.MainActivity;
 import com.example.smilejobportal.Adapter.JobExploreAdapter;
@@ -34,9 +37,21 @@ public class BookmarkActivity extends AppCompatActivity {
         binding = ActivityBookmarkBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        TextView textNoBookmarks = findViewById(R.id.textNoBookmarks);
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewBookmark);
+
         List<JobModel> bookmarks = loadBookmarks();
         binding.recyclerViewBookmark.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerViewBookmark.setAdapter(new JobExploreAdapter(bookmarks));
+
+
+        if (bookmarks.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            textNoBookmarks.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            textNoBookmarks.setVisibility(View.GONE);
+        }
 
            setupBottomNav();
     }

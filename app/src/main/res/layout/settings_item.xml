@@ -24,7 +24,7 @@
             android:id="@+id/settingIcon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/settings"
+            android:src="@drawable/ic_placeholder"
              />
 
         <TextView

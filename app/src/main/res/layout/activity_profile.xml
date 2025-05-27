@@ -8,18 +8,14 @@
     android:layout_height="match_parent"
     tools:context=".Activity.Navbar.ProfileActivity">
 
-    <ImageView
-        android:id="@+id/backbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="@drawable/circle_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/back" />
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/profile_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:title="Profile"
+        android:titleTextColor="@android:color/darker_gray"
+        app:navigationIcon="@drawable/back" />
 
 
     <ScrollView
@@ -48,7 +44,8 @@
                     android:src="@drawable/user_icon"
                     android:background="@drawable/circle_background"
                     android:contentDescription="Profile Picture"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText"
+                    android:layout_marginTop="16dp"/>
 
                 <ImageView
                     android:id="@+id/editImageIcon"

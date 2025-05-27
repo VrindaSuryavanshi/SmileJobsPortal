@@ -39,12 +39,16 @@ class DetailsActivity : AppCompatActivity() {
         binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.moreJobs.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
         val scrollView = findViewById<View>(R.id.detailsScrollView)
 
         ViewCompat.setOnApplyWindowInsetsListener(scrollView) { v, insets ->
             val bottomInset = insets.getInsets(Type.systemBars()).bottom
 
-            // Apply padding: 36dp = approx 36 * density pixels
             val extraPaddingDp = 36 * resources.displayMetrics.density
             v.setPadding(
                 v.paddingLeft,

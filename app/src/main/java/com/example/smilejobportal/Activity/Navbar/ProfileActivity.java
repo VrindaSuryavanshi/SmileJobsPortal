@@ -19,6 +19,7 @@ import com.example.smilejobportal.Activity.LoginActivity;
 import com.example.smilejobportal.Activity.MainActivity;
 import com.example.smilejobportal.Activity.SettingsActivity;
 import com.example.smilejobportal.R;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,10 +49,16 @@ public class ProfileActivity extends AppCompatActivity {
     private StorageReference storageRef;
     private FirebaseUser currentUser;
 
+    private androidx.appcompat.widget.Toolbar profileToolbar;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        profileToolbar = findViewById(R.id.profile_toolbar);
+        profileToolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
@@ -65,14 +72,12 @@ public class ProfileActivity extends AppCompatActivity {
         educationEditText = findViewById(R.id.editEducation);
         resumeFilenameText = findViewById(R.id.resumeFileName);
 
-        findViewById(R.id.backbtn).setOnClickListener(v -> {
-            Toast.makeText(this, "Back Button Clicked", Toast.LENGTH_SHORT).show();
+        MaterialToolbar toolbar = findViewById(R.id.profile_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Profile");
 
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-            finish();
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         findViewById(R.id.uploadResumeText).setOnClickListener(v -> openResumePicker());
         findViewById(R.id.profileImage).setOnClickListener(v -> openImagePicker());
