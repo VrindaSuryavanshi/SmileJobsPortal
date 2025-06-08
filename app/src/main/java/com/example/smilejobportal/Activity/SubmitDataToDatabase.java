@@ -84,6 +84,7 @@ public class SubmitDataToDatabase extends AppCompatActivity {
         String contact = contactEditText.getText().toString().trim();
         String companyName = companyNameJob.getText().toString().trim();
         String positionName = positionNameJob.getText().toString().trim();
+        String resumeFileName = resumeFilenameText.getText().toString().trim();
 
         if (fullName.isEmpty()) {
             fullNameEditText.setError("Full name is required");
@@ -124,7 +125,7 @@ public class SubmitDataToDatabase extends AppCompatActivity {
                         return;
                     }
                     String resumeUrl = uri.toString();
-                    CandidateModel candidate = new CandidateModel(id, fullName, email, contact, companyName, positionName, resumeUrl);
+                    CandidateModel candidate = new CandidateModel(id, fullName, email, contact, companyName, positionName,resumeFileName, resumeUrl);
                     databaseCandidates.child(id).setValue(candidate).addOnSuccessListener(aVoid -> {
                         Toast.makeText(this, "Candidate saved successfully!", Toast.LENGTH_SHORT).show();
                         resetForm();
@@ -134,6 +135,7 @@ public class SubmitDataToDatabase extends AppCompatActivity {
                         intent.putExtra("contact", contact);
                         intent.putExtra("companyName", companyName);
                         intent.putExtra("positionName", positionName);
+                        intent.putExtra("resumeFileName", resumeFileName);
                         intent.putExtra("resumeLink", resumeUrl);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

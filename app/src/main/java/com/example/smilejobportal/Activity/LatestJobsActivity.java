@@ -46,12 +46,25 @@ public class LatestJobsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_latest_jobs);
 
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Latest Jobs");
+        }
+        toolbar.setNavigationOnClickListener(v -> {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        });
 
         NavigationView navigationView = findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
 
         jobList = new ArrayList<>();
         jobAdapter = new LatestJobAdapter(jobList); // Pass context if your adapter needs it
@@ -60,9 +73,6 @@ public class LatestJobsActivity extends AppCompatActivity {
         jobRef = FirebaseDatabase.getInstance().getReference("jobs");
 
         loadJobsInReverseOrder();
-
-        MaterialToolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
     }
 
@@ -112,4 +122,10 @@ public class LatestJobsActivity extends AppCompatActivity {
         return false;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
 }

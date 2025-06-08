@@ -37,8 +37,6 @@ public class HelpSupportActivity extends AppCompatActivity {
 
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
 
-
-
         faqRecyclerView = findViewById(R.id.faqRecyclerView);
         faqRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         List<FaqModel> faqList = getSampleFaqs();
@@ -46,7 +44,7 @@ public class HelpSupportActivity extends AppCompatActivity {
 
         buttonChat = findViewById(R.id.buttonChat);
         buttonEmail = findViewById(R.id.buttonEmail);
-        buttonCall = findViewById(R.id.buttonCall);
+//        buttonCall = findViewById(R.id.buttonCall);
 
         buttonChat.setOnClickListener(v -> {
             Toast.makeText(this, "Opening chat support...", Toast.LENGTH_SHORT).show();
@@ -55,16 +53,16 @@ public class HelpSupportActivity extends AppCompatActivity {
 
         buttonEmail.setOnClickListener(v -> {
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-            emailIntent.setData(Uri.parse("mailto:smilejobportal@gmail.com"));
+            emailIntent.setData(Uri.parse("mailto:info.smilejobs@gmail.com"));
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Support Request");
             startActivity(Intent.createChooser(emailIntent, "Send Email"));
         });
 
-        buttonCall.setOnClickListener(v -> {
-            Intent callIntent = new Intent(Intent.ACTION_DIAL);
-            callIntent.setData(Uri.parse("tel:+918999253954"));
-            startActivity(callIntent);
-        });
+//        buttonCall.setOnClickListener(v -> {
+//            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+//            callIntent.setData(Uri.parse("tel:+918999253954"));
+//            startActivity(callIntent);
+//        });
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -83,5 +81,12 @@ public class HelpSupportActivity extends AppCompatActivity {
         list.add(new FaqModel("Can I edit my profile?", "Yes, go to Settings > Edit Profile."));
         list.add(new FaqModel("How to reset password?", "Go to Settings > Change Password."));
         return list;
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

@@ -38,4 +38,11 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
         webView.loadUrl("file:///android_asset/privacy_policy.html");
 
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

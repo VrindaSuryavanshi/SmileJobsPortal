@@ -12,8 +12,23 @@
         android:title="Candidates List" />
 
     <item
+        android:id="@+id/contacted_by_hr"
+        android:icon="@drawable/baseline_call_24"
+        android:title="Candidated by HR" />
+
+    <item
         android:id="@+id/users_list"
         android:icon="@drawable/multi_user"
         android:title="Users List" />
+
+    <item
+        android:id="@+id/add_new_job"
+        android:icon="@drawable/jobs"
+        android:title="Add New Job" />
+
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/logout"
+        android:title="Logout" />
 
 </menu>

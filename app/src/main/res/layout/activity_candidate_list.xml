@@ -21,7 +21,27 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:title=" Candidate List "
             app:titleTextColor="@android:color/white" />
-<RelativeLayout
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:queryHint="Search jobs by title, company, or location"
+            android:iconifiedByDefault="false"
+            android:layout_margin="8dp" />
+        <TextView
+            android:id="@+id/noResultsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No jobs found"
+            android:textSize="16sp"
+            android:textColor="@color/gray_dark"
+            android:gravity="center"
+            android:padding="16dp"
+            android:visibility="gone" />
+
+
+        <RelativeLayout
     android:id="@+id/activity_candidate_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

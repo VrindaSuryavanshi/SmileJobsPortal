@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -90,13 +91,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, ExploreActivity::class.java))
             overridePendingTransition(0, 0)
         }
-//
-//        notificationBell.setOnClickListener {
-//            markJobsAsSeen()
-//            startActivity(Intent(this, ExploreActivity::class.java))
-//            overridePendingTransition(0, 0)
-//        }
-
 
         setupBottomNav()
         initLocation()
@@ -242,8 +236,16 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
-        super.onBackPressed()
-        finish()
+        AlertDialog.Builder(this)
+            .setTitle("Exit App")
+            .setMessage("Are you sure you want to exit?")
+            .setPositiveButton("Yes") { _, _ ->
+                finishAffinity()
+            }
+            .setNegativeButton("No", null) // Dismisses dialog
+            .show()
     }
+
 }

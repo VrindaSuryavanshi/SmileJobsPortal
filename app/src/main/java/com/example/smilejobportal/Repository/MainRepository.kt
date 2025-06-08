@@ -38,6 +38,8 @@ class MainRepository {
         })
     }
 
-    val location = listOf("Chakan", "Talegoan", "Pimpri-Chinchwad", "Shivajinagar", "Moshi")
-    val category = listOf("all", "Operator", "software", "ITI")
+    val location = listOf("Chakan", "Talegoan", "Pimpari","Chinchwad","Hinjewadi","Rajangaon","Shikrapur","Talwade",
+        "Baner","Kharadi","Shivajinagar","Katraj","Pune Station","Sanasawadi","Moshi","Bhosari","Kuruli","Nighoje")
+
+    val category = listOf("All", "Manufacturing", "Service", "Construction","Other")
 }

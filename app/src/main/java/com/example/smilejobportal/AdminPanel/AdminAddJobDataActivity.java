@@ -18,11 +18,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.smilejobportal.Activity.LatestJobsActivity;
+import com.example.smilejobportal.Activity.LoginActivity;
 import com.example.smilejobportal.Activity.MainActivity;
 import com.example.smilejobportal.Activity.Navbar.BookmarkActivity;
 import com.example.smilejobportal.Activity.Navbar.ChatActivity;
 import com.example.smilejobportal.Activity.Navbar.ExploreActivity;
 import com.example.smilejobportal.Activity.Navbar.ProfileActivity;
+import com.example.smilejobportal.Activity.SettingsActivity;
 import com.example.smilejobportal.Model.JobModel;
 import com.example.smilejobportal.R;
 import com.google.android.material.navigation.NavigationView;
@@ -137,7 +139,7 @@ public class AdminAddJobDataActivity extends AppCompatActivity {
         jobRef.child(jobId).setValue(job).addOnSuccessListener(unused -> {
             Toast.makeText(this, "Job Uploaded Successfully!", Toast.LENGTH_SHORT).show();
             sendNotificationToAllUsers(title, description);
-            startActivity(new Intent(AdminAddJobDataActivity.this, LatestJobsActivity.class));
+//            startActivity(new Intent(AdminAddJobDataActivity.this, LatestJobsActivity.class));
             finish();
         }).addOnFailureListener(e ->
                 Toast.makeText(this, "Failed to upload job.", Toast.LENGTH_SHORT).show()
@@ -177,10 +179,12 @@ public class AdminAddJobDataActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<HttpsCallableResult>() {
                     @Override
                     public void onComplete(Task<HttpsCallableResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("Push", "Notification sent: " + task.getResult().getData());
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            Log.d("FCM", "Token sent: " + token);
+                            Log.d("Push", "Notification response: " + task.getResult().getData());
                         } else {
-                            Log.e("Push", "Error: " + task.getException().getMessage());
+                            Exception e = task.getException();
+                            Log.e("Push", "Error sending notification: " + (e != null ? e.getMessage() : "Unknown error"));
                         }
                     }
                 });
@@ -197,11 +201,28 @@ public class AdminAddJobDataActivity extends AppCompatActivity {
             case R.id.users_list:
                 startActivity(new Intent(this, AllUsersActivity.class));
                 return true;
+            case R.id.contacted_by_hr:
+            startActivity(new Intent(this, AdminContactedByHrCallActivity.class));
+            return true;
+            case R.id.add_new_job:
+                    startActivity(new Intent(this, AdminAddJobDataActivity.class));
+                return true;
+
+                case R.id.logout:
+                startActivity(new Intent(this, LoginActivity.class));
+                return true;
 
         }
         return false;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, AdminDashboardActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
 
 }

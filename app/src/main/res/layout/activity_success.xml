@@ -72,51 +72,17 @@
         app:backgroundTint="@color/purple"
         android:textColor="@color/white"/>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/appliedJobsButton"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Applied Jobs"
+        app:icon="@drawable/jobs"
+        app:iconPadding="8dp"
+        app:iconGravity="start"
+        app:backgroundTint="@color/lightPurple"
+        android:textColor="@color/white"
+        android:layout_marginTop="32dp"/>
+
 </LinearLayout>
-
-    <!--<?xml version="1.0" encoding="utf-8"?>-->
-<!--<androidx.cardview.widget.CardView-->
-<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    android:layout_width="wrap_content"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:layout_gravity="center"-->
-<!--    android:layout_margin="32dp"-->
-<!--    app:cardCornerRadius="24dp"-->
-<!--    app:cardElevation="8dp"-->
-<!--    app:cardBackgroundColor="@android:color/white">-->
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="300dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="vertical"-->
-<!--        android:padding="24dp"-->
-<!--        android:gravity="center_horizontal"-->
-<!--        android:background="@android:color/white">-->
-
-<!--        <ImageView-->
-<!--            android:layout_width="72dp"-->
-<!--            android:layout_height="72dp"-->
-<!--            android:src="@drawable/ic_check_circle"-->
-<!--            app:tint="@color/successGreen" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Application Submitted!"-->
-<!--            android:textSize="18sp"-->
-<!--            android:textStyle="bold"-->
-<!--            android:textColor="@android:color/black"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            android:gravity="center" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="We'll notify you if you're shortlisted."-->
-<!--            android:textSize="14sp"-->
-<!--            android:textColor="#666666"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:gravity="center" />-->
-<!--    </LinearLayout>-->
-<!--</androidx.cardview.widget.CardView>-->

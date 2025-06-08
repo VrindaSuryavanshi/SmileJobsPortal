@@ -9,4 +9,22 @@
 
     <style name="BottomNavText"></style>
 
+    <style name="DashboardCard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:padding">24dp</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:elevation">4dp</item>
+<!--        <item name="app:cardCornerRadius">16dp</item>-->
+    </style>
+
+    <style name="CardText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+
 </resources>

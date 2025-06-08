@@ -8,22 +8,23 @@
     android:layout_height="match_parent"
     tools:context=".Activity.Navbar.ProfileActivity">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/profile_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:title="Profile"
-        android:titleTextColor="@android:color/darker_gray"
-        app:navigationIcon="@drawable/back" />
-
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Profile"
+            app:titleTextColor="@android:color/darker_gray"
+            app:navigationIcon="@drawable/back"
+            />
 
     <ScrollView
         android:id="@+id/scrollViewMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/bottomNavigation"
-        android:padding="24dp">
+        android:layout_below="@+id/toolbar"
+        android:layout_marginTop="1dp"
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,18 +35,17 @@
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="32dp">
+                android:layout_gravity="center_horizontal">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profileImage"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
-                    android:src="@drawable/user_icon"
+                    android:layout_marginTop="16dp"
                     android:background="@drawable/circle_background"
                     android:contentDescription="Profile Picture"
-                    tools:ignore="HardcodedText"
-                    android:layout_marginTop="16dp"/>
+                    android:src="@drawable/user_icon"
+                    tools:ignore="HardcodedText" />
 
                 <ImageView
                     android:id="@+id/editImageIcon"
@@ -54,29 +54,30 @@
                     android:layout_gravity="bottom|end"
                     android:layout_margin="4dp"
                     android:background="@color/white"
-                android:padding="6dp"
-                android:src="@drawable/icons_edit_image"
-                android:contentDescription="Edit Profile Image" />
+                    android:contentDescription="Edit Profile Image"
+                    android:padding="6dp"
+                    android:src="@drawable/icons_edit_image" />
             </FrameLayout>
 
 
             <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                app:endIconMode="custom"
+                android:id="@+id/editName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/gray_dark"
                 app:endIconDrawable="@drawable/ic_edit1"
-                    android:textColor="@color/gray_dark" />
+                app:endIconMode="custom" />
+
             <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                android:id="@+id/editEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="-16dp"
-               android:layout_gravity="center"
-                app:endIconMode="custom"
+                android:textColor="@color/purple"
                 app:endIconDrawable="@drawable/ic_edit1"
-                android:textColor="@color/purple" />
+                app:endIconMode="custom" />
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -87,24 +88,24 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editBio"
-                    android:textColor="@color/gray_dark"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_dark" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Education Field -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:hint="Education"
-                app:errorTextColor="@color/gray_dark"
-                android:layout_marginTop="12dp">
+                app:errorTextColor="@color/gray_dark">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editEducation"
-                    android:textColor="@color/gray_dark"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_dark" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Upload Resume Section -->
@@ -114,34 +115,34 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Upload Resume (PDF/DOC)"
-                android:textSize="16sp"
-                android:textColor="@color/gray_dark" />
+                android:textColor="@color/gray_dark"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/resumeFileName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="No file selected"
-                android:textColor="@color/green"
-                android:layout_marginTop="4dp" />
+                android:textColor="@color/green" />
 
             <!-- Arrow Navigation Options -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="24dp">
+                android:layout_marginTop="24dp"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/navSettingsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="12dp"
-                    android:gravity="center_vertical"
+                    android:background="?android:selectableItemBackground"
                     android:clickable="true"
                     android:focusable="true"
-                    android:background="?android:selectableItemBackground">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp">
 
                     <TextView
                         android:id="@+id/navSettings"
@@ -158,77 +159,77 @@
                         android:id="@+id/navSettingsArrow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingEnd="16dp"
                         android:text=">"
-                        android:textSize="18sp"
                         android:textColor="@color/gray_dark"
-                        android:paddingEnd="16dp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/navShareAppLayout"
+                    android:id="@+id/appliedJobLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="12dp"
-                    android:gravity="center_vertical"
+                    android:background="?android:selectableItemBackground"
                     android:clickable="true"
                     android:focusable="true"
-                    android:background="?android:selectableItemBackground">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp">
 
 
                     <TextView
-                        android:id="@+id/navShareAppEdit"
-                        android:text="Share App"
+                        android:id="@+id/appliedJobEdit"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/gray_dark"
-                        android:textSize="16sp"
                         android:paddingStart="16dp"
-                        android:paddingEnd="8dp" />
+                        android:paddingEnd="8dp"
+                        android:text="Applied Jobs"
+                        android:textColor="@color/gray_dark"
+                        android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/navShareAppArrow"
+                        android:id="@+id/appliedJobArrow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingEnd="16dp"
                         android:text=">"
-                        android:textSize="18sp"
                         android:textColor="@color/gray_dark"
-                        android:paddingEnd="16dp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/navLogoutLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="12dp"
-                    android:gravity="center_vertical"
+                    android:background="?android:selectableItemBackground"
                     android:clickable="true"
                     android:focusable="true"
-                    android:background="?android:selectableItemBackground">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp">
 
                     <TextView
                         android:id="@+id/navLogoutEdit"
-                        android:text="Logout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textStyle="bold"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="8dp"
+                        android:text="Logout"
                         android:textColor="@color/gray_dark"
                         android:textSize="16sp"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="8dp" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/navLogoutArrow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingEnd="16dp"
                         android:text=">"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
                         android:textColor="@color/gray_dark"
-                        android:paddingEnd="16dp" />
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>

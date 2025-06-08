@@ -103,6 +103,12 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
                 intent_about.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent_about);
                 break;
+            case "share_app":
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this job portal app: https://play.google.com/");
+                startActivity(Intent.createChooser(shareIntent, "Share via"));
+                break;
             case "logout":
                 FirebaseAuth.getInstance().signOut();
                 Toast.makeText(this, "Logout successful...!", Toast.LENGTH_SHORT).show();
@@ -114,5 +120,13 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
                 Toast.makeText(this, "Unknown option selected", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingTop="16dp">
+
+        <TextView
+            android:id="@+id/dashboardTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin Dashboard"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:paddingBottom="24dp" />
+
+        <!-- Jobs Count -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/jobsCard"
+            style="@style/Widget.MaterialComponents.CardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/job_type"
+                    android:tint="@color/purple"
+                    android:layout_marginEnd="16dp"
+                    tools:ignore="UseAppTint" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/jobsCountText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 Jobs"
+                        android:textSize="18sp"
+                        android:textColor="@color/gray_dark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total posted jobs"
+                        android:textSize="14sp"
+                        android:textColor="@color/gray" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Users Count -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/usersCard"
+            style="@style/Widget.MaterialComponents.CardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/multi_user"
+                    android:tint="@color/purple"
+                    android:layout_marginEnd="16dp"
+                    tools:ignore="UseAppTint" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/usersCountText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 Users"
+                        android:textSize="18sp"
+                        android:textColor="@color/gray_dark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Registered users"
+                        android:textSize="14sp"
+                        android:textColor="@color/gray" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Action Buttons -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addJobBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add New Job"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:drawableStart="@drawable/ic_add"
+            android:layout_marginBottom="12dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/manageJobsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Manage Jobs"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:drawableStart="@drawable/ic_manage"
+            android:layout_marginBottom="12dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/viewUsersBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View Users"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:drawableStart="@drawable/multi_user_icon"
+            android:layout_marginBottom="12dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/CandidateListBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View Candidate List"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:drawableStart="@drawable/ic_user_panel"
+            android:layout_marginBottom="12dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/CandidateListByHrBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Candidate List Contacted By Hr"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:drawableStart="@drawable/ic_user_panel"
+            android:layout_marginBottom="12dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/logoutBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/errorColor"
+            android:drawableStart="@drawable/logout"
+            />
+    </LinearLayout>
+</ScrollView>

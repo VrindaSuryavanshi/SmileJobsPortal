@@ -34,4 +34,12 @@ public class AboutUsActivity extends AppCompatActivity {
                 }
                 );
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

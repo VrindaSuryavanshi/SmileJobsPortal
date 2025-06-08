@@ -1,10 +1,13 @@
 package com.example.smilejobportal.Activity.Navbar;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.smilejobportal.Activity.AppliedJobDetailsActivity;
 import com.example.smilejobportal.Activity.LoginActivity;
 import com.example.smilejobportal.Activity.MainActivity;
 import com.example.smilejobportal.Activity.SettingsActivity;
@@ -49,17 +53,23 @@ public class ProfileActivity extends AppCompatActivity {
     private StorageReference storageRef;
     private FirebaseUser currentUser;
 
-    private androidx.appcompat.widget.Toolbar profileToolbar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        profileToolbar = findViewById(R.id.profile_toolbar);
-        profileToolbar.setNavigationOnClickListener(v -> onBackPressed());
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Profile");
+        }
+        toolbar.setNavigationOnClickListener(v -> {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        });
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         databaseRef = FirebaseDatabase.getInstance().getReference("users");
@@ -72,13 +82,6 @@ public class ProfileActivity extends AppCompatActivity {
         educationEditText = findViewById(R.id.editEducation);
         resumeFilenameText = findViewById(R.id.resumeFileName);
 
-        MaterialToolbar toolbar = findViewById(R.id.profile_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Profile");
-
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
-
         findViewById(R.id.uploadResumeText).setOnClickListener(v -> openResumePicker());
         findViewById(R.id.profileImage).setOnClickListener(v -> openImagePicker());
         findViewById(R.id.btnSaveProfile).setOnClickListener(v -> uploadProfileData());
@@ -88,13 +91,19 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(intent);
 
         });
-
-        findViewById(R.id.navShareAppLayout).setOnClickListener(v -> {
-            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this job portal app: https://play.google.com/");
-            startActivity(Intent.createChooser(shareIntent, "Share via"));
+        findViewById(R.id.appliedJobLayout).setOnClickListener(v -> {
+            Intent intent = new Intent(this, AppliedJobDetailsActivity.class);
+            startActivity(intent);
         });
+
+//        findViewById(R.id.navShareAppLayout).setOnClickListener(v -> {
+//            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+//            shareIntent.setType("text/plain");
+//            shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this job portal app: https://play.google.com/");
+//            startActivity(Intent.createChooser(shareIntent, "Share via"));
+//        });
+
+
 
         findViewById(R.id.navLogoutLayout).setOnClickListener(v -> {
             auth.signOut();
@@ -106,6 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         loadUserProfile();
         setupBottomNav();
+
     }
 
     private void loadUserProfile() {
@@ -169,8 +179,8 @@ public class ProfileActivity extends AppCompatActivity {
                 Glide.with(this).load(selectedImageUri).into(profileImage);
             } else if (requestCode == PICK_RESUME_REQUEST) {
                 selectedResumeUri = data.getData();
-                String filename = selectedResumeUri.getLastPathSegment();
-                resumeFilenameText.setText(filename != null ? filename.substring(filename.lastIndexOf("/") + 1) : "File Selected");
+                String filename = getFileNameFromUri(selectedResumeUri);
+                resumeFilenameText.setText(filename != null ? filename : "File Selected");
             }
         }
     }
@@ -182,37 +192,51 @@ public class ProfileActivity extends AppCompatActivity {
             return;
         }
 
+        String name = Objects.requireNonNull(nameEditText.getText()).toString().trim();
         String bio = Objects.requireNonNull(bioEditText.getText()).toString().trim();
         String education = Objects.requireNonNull(educationEditText.getText()).toString().trim();
 
-        if (TextUtils.isEmpty(bio) || TextUtils.isEmpty(education)) {
+        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(bio) || TextUtils.isEmpty(education)) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        databaseRef.child(uid).child("name").setValue(name);
         databaseRef.child(uid).child("bio").setValue(bio);
         databaseRef.child(uid).child("education").setValue(education);
 
-        if (selectedImageUri != null) {
+        // Track how many uploads are completed
+        boolean isImageUploading = selectedImageUri != null;
+        boolean isResumeUploading = selectedResumeUri != null;
+
+        if (isImageUploading) {
             StorageReference imageRef = storageRef.child("profile_images/" + uid + ".jpg");
             imageRef.putFile(selectedImageUri).addOnSuccessListener(taskSnapshot ->
                     imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                         databaseRef.child(uid).child("profileImage").setValue(uri.toString());
+                        if (!isResumeUploading) {
+                            Toast.makeText(this, "Profile saved", Toast.LENGTH_SHORT).show();
+                        }
                     })
             );
         }
 
-        if (selectedResumeUri != null) {
-            String fileName = System.currentTimeMillis() + "_" + selectedResumeUri.getLastPathSegment();
+        if (isResumeUploading) {
+            String fileName = getFileNameFromUri(selectedResumeUri);
             StorageReference resumeRef = storageRef.child("resumes/" + fileName);
+
             resumeRef.putFile(selectedResumeUri).addOnSuccessListener(taskSnapshot ->
                     resumeRef.getDownloadUrl().addOnSuccessListener(uri -> {
                         databaseRef.child(uid).child("resumeUrl").setValue(uri.toString());
                         databaseRef.child(uid).child("resumeFileName").setValue(fileName);
                         resumeFilenameText.setText(fileName);
+                        Toast.makeText(this, "Profile saved", Toast.LENGTH_SHORT).show();
                     })
             );
-        } else {
+        }
+
+        // If nothing to upload
+        if (!isImageUploading && !isResumeUploading) {
             Toast.makeText(this, "Profile saved", Toast.LENGTH_SHORT).show();
         }
     }
@@ -234,12 +258,31 @@ public class ProfileActivity extends AppCompatActivity {
                 case R.id.nav_chat:
                     startActivity(new Intent(this, ChatActivity.class));
                     return true;
-                case R.id.nav_profile:
-                    return true;
             }
             return false;
         });
     }
+
+    private String getFileNameFromUri(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                if (nameIndex >= 0) {
+                    result = cursor.getString(nameIndex);
+                }
+                cursor.close();
+            }
+        }
+
+        if (result == null) {
+            result = uri.getLastPathSegment();
+        }
+
+        return result;
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -249,4 +292,6 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
 }
+

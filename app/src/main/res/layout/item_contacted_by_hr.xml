@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginHorizontal="4dp"
+    android:elevation="4dp"
+    app:cardCornerRadius="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Candidate Name -->
+        <TextView
+            android:id="@+id/tv_candidate_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name: John Doe"
+            android:textColor="@color/green"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            android:textStyle="bold" />
+
+        <!-- Email -->
+        <TextView
+            android:id="@+id/tv_candidate_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email: johndoe@email.com"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+
+        <!-- Contact -->
+        <TextView
+            android:id="@+id/tv_candidate_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contact: 1234567890"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+
+        <!-- Resume -->
+        <TextView
+            android:id="@+id/tv_candidate_resume"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/green"
+            android:text="Resume: resume.pdf"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+
+        <!-- Job Info -->
+        <TextView
+            android:id="@+id/tv_candidate_job"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Applied for: Android Developer at ABC Corp"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+
+
+        <!-- Note -->
+        <TextView
+            android:id="@+id/tv_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Note: Contacted by HR"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="@color/purple" />
+
+        <!-- Call Button -->
+        <Button
+            android:id="@+id/btn_call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Call"
+            android:layout_gravity="end"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/purple"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

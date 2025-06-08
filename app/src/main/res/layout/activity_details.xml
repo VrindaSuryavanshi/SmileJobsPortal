@@ -288,7 +288,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
-                                android:text="Level"
+                                android:text="Experience"
                                 android:textColor="@color/black"
                                 app:layout_constraintStart_toEndOf="@+id/imageView114"
                                 app:layout_constraintTop_toTopOf="@+id/imageView114" />
@@ -346,8 +346,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="280dp"
                             android:background="@color/white" />
-
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -355,8 +353,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center"
-                        android:layout_margin="8dp"
-                        >
+                        android:layout_margin="8dp">
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/applyJobButton"

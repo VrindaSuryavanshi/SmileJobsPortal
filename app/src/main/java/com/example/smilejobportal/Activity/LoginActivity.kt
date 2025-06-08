@@ -1,8 +1,13 @@
 package com.example.smilejobportal.Activity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
@@ -11,8 +16,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import com.example.smilejobportal.AdminPanel.AdminAddJobDataActivity
+import com.example.smilejobportal.AdminPanel.AdminDashboardActivity
 import com.example.smilejobportal.R
 import com.example.smilejobportal.ViewModel.LoginViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -29,7 +36,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var viewModel: LoginViewModel
     private lateinit var googleSignInClient: GoogleSignInClient
 
-    // Google Sign-In result launcher
     private val googleSignInResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -44,20 +50,18 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+    @SuppressLint("MissingInflatedId", "UnsafeImplicitIntentLaunch")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // ✅ EARLY REDIRECT: If user is already logged in, go to MainActivity and skip showing login screen
         if (FirebaseAuth.getInstance().currentUser != null) {
             startActivity(Intent(this, MainActivity::class.java))
-            overridePendingTransition(0, 0) // optional: no animation
+            overridePendingTransition(0, 0)
             finish()
             return
         }
 
-        // Show login screen
         setContentView(R.layout.activity_login)
-
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
         val email = findViewById<EditText>(R.id.emailEditText)
@@ -67,18 +71,25 @@ class LoginActivity : AppCompatActivity() {
         val signUp = findViewById<TextView>(R.id.signUpBtn)
         val rememberMe = findViewById<CheckBox>(R.id.rememberMeCheckBox)
         val googleSignInBtn = findViewById<ImageView>(R.id.googleSignInBtn)
+        val backButton = findViewById<ImageView>(R.id.backButton)
+        val websiteTextView = findViewById<TextView>(R.id.websiteTextView)
 
-        // SharedPreferences for Remember Me
+        backButton.setOnClickListener { finish() }
+
+        websiteTextView.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.smilejobs.in"))
+            startActivity(intent)
+        }
+
+        // Remember Me
         val sharedPref = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
         val savedEmail = sharedPref.getString("email", "")
         val savedPassword = sharedPref.getString("password", "")
-
-        // Autofill saved credentials
         email.setText(savedEmail)
         password.setText(savedPassword)
-        rememberMe.isChecked = savedEmail!!.isNotEmpty()
+        rememberMe.isChecked = !savedEmail.isNullOrEmpty()
 
-        // Email/password login
+        // Login
         loginBtn.setOnClickListener {
             val emailText = email.text.toString()
             val passwordText = password.text.toString()
@@ -88,14 +99,12 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Shortcut for admin access
             if (emailText == "admin" && passwordText == "admin123") {
-                startActivity(Intent(this, AdminAddJobDataActivity::class.java))
+                startActivity(Intent(this, AdminDashboardActivity::class.java))
                 finish()
                 return@setOnClickListener
             }
 
-            // Normal user login
             viewModel.login(emailText, passwordText) { success, message ->
                 if (success) {
                     if (rememberMe.isChecked) {
@@ -108,27 +117,19 @@ class LoginActivity : AppCompatActivity() {
                         sharedPref.edit().clear().apply()
                     }
 
+                    askNotificationPermission()
+                    saveFcmTokenToDatabase()
+
                     startActivity(Intent(this, MainActivity::class.java))
                     overridePendingTransition(0, 0)
                     finish()
-
-                    // Save FCM token to database
-                    FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
-                        FirebaseAuth.getInstance().uid?.let { uid ->
-                            FirebaseDatabase.getInstance().getReference("users")
-                                .child(uid)
-                                .child("fcmToken")
-                                .setValue(token)
-                        }
-                    }
-
                 } else {
                     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
                 }
             }
         }
 
-        // Google Sign-In setup
+        // Google Sign-In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -140,7 +141,6 @@ class LoginActivity : AppCompatActivity() {
             googleSignInResult.launch(signInIntent)
         }
 
-        // Sign-up and Forgot Password
         signUp.setOnClickListener {
             startActivity(Intent(this, RegistrationActivity::class.java))
         }
@@ -163,6 +163,22 @@ class LoginActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    val user = FirebaseAuth.getInstance().currentUser
+                    user?.let {
+                        val uid = it.uid
+                        val name = it.displayName
+                        val email = it.email
+                        val userMap = mapOf("name" to name, "email" to email)
+
+                        FirebaseDatabase.getInstance().getReference("users")
+                            .child(uid)
+                            .updateChildren(userMap)
+                            .addOnSuccessListener {
+                                askNotificationPermission()
+                                saveFcmTokenToDatabase()
+                            }
+                    }
+
                     startActivity(Intent(this, MainActivity::class.java))
                     overridePendingTransition(0, 0)
                     finish()
@@ -170,5 +186,39 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "Authentication Failed", Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    private fun askNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                    1
+                )
+            }
+        }
+    }
+
+    private fun saveFcmTokenToDatabase() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("FCM", "Fetching FCM token failed", task.exception)
+                return@addOnCompleteListener
+            }
+
+            val token = task.result
+            val uid = FirebaseAuth.getInstance().uid
+            if (!token.isNullOrEmpty() && uid != null) {
+                FirebaseDatabase.getInstance().getReference("users")
+                    .child(uid)
+                    .child("fcmToken")
+                    .setValue(token)
+            }
+        }
     }
 }

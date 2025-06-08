@@ -1,0 +1,21 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background color -->
+    <item android:drawable="@color/white" />
+
+    <!-- Logo and Text -->
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/logo_smile_job" />
+    </item>
+
+    <!-- Text below the logo -->
+    <item>
+        <bitmap
+            android:gravity="center_horizontal|center_vertical"
+            android:src="@drawable/a"
+            android:tileMode="disabled"
+            android:top="150dp" />
+    </item>
+
+</layer-list>

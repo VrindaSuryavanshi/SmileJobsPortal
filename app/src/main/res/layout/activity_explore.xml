@@ -5,64 +5,66 @@
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context=".Activity.Navbar.ExploreActivity">
 
-    <!-- Category RecyclerView (horizontal chips-like style) -->
-<androidx.recyclerview.widget.RecyclerView
-android:id="@+id/recyclerViewCategoryExplore"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_marginTop="24dp"
-android:paddingStart="16dp"
-android:paddingEnd="16dp"
-android:overScrollMode="never"
-android:clipToPadding="false"
-android:layout_alignParentTop="true"
-android:nestedScrollingEnabled="false" />
-
-    <!-- Scrollable content -->
-<androidx.core.widget.NestedScrollView
-android:id="@+id/scrollViewMain"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:layout_below="@id/recyclerViewCategoryExplore"
-android:layout_above="@id/bottomNavigation"
-android:paddingTop="12dp"
-android:paddingBottom="100dp"
-android:clipToPadding="false"
-android:overScrollMode="never">
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp">
-
-    <!-- ProgressBar -->
-    <ProgressBar
-        android:id="@+id/progressBarCategoryExplore"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp" />
-
-    <!-- Recent Jobs RecyclerView -->
+    <!-- Category RecyclerView (Fixed) -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewExplore"
+        android:id="@+id/recyclerViewCategoryExplore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:padding="8dp"
+        android:layout_alignParentTop="true"
         android:clipToPadding="false"
-        android:nestedScrollingEnabled="false"
-        android:paddingBottom="16dp"
-        android:overScrollMode="never" />
-</LinearLayout>
-</androidx.core.widget.NestedScrollView>
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        tools:listitem="@layout/item_category_chip" />
 
-    <!-- Modern Bottom Navigation Bar -->
+    <!-- Scrollable content below the categories -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollViewMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="85dp"
+        android:paddingBottom="100dp"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"> <!-- Correct -->
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp">
+
+            <!-- ProgressBar -->
+            <ProgressBar
+                android:id="@+id/progressBarCategoryExplore"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Recent Jobs RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewExplore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:nestedScrollingEnabled="false"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                tools:listitem="@layout/item_admin_job" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
@@ -75,6 +77,6 @@ android:overScrollMode="never">
         app:itemIconTint="@color/white"
         app:itemTextAppearanceActive="@style/BottomNavText"
         app:itemTextAppearanceInactive="@style/BottomNavText"
-        app:menu="@menu/bottom_nav_menu"/>
+        app:menu="@menu/bottom_nav_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

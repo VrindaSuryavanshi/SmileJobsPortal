@@ -44,10 +44,6 @@ class SearchActivity : AppCompatActivity() {
 
         fetchRecentJobs()
 
-        findViewById<Button>(R.id.buttonCancel).setOnClickListener {
-            finish()
-        }
-
         findViewById<Button>(R.id.buttonSearch).setOnClickListener {
             val jobText = jobEditText.text.toString().lowercase()
             val locationText = locationEditText.text.toString().lowercase()
@@ -86,5 +82,11 @@ class SearchActivity : AppCompatActivity() {
 
                 override fun onCancelled(error: DatabaseError) {}
             })
+    }
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

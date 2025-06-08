@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/appliedToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:titleTextColor="@android:color/white"
+        app:navigationIcon="@drawable/back"
+        app:title="Applied Jobs"
+        />
+
+    <TextView
+        android:id="@+id/noJobsTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No applied jobs found."
+        android:textAlignment="center"
+        android:visibility="gone"
+        android:textAppearance="?attr/textAppearanceBody1"
+        android:padding="16dp" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/appliedRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp" />
+
+</LinearLayout>

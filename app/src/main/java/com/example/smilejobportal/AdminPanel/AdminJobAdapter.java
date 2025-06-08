@@ -35,6 +35,7 @@ public class AdminJobAdapter extends RecyclerView.Adapter<AdminJobAdapter.JobVie
         notifyDataSetChanged();
     }
 
+
     @NonNull
     @Override
     public JobViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -79,6 +80,7 @@ public class AdminJobAdapter extends RecyclerView.Adapter<AdminJobAdapter.JobVie
                     .show();
         });
     }
+
 
     @Override
     public int getItemCount() {

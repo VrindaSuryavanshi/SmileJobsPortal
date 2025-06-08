@@ -1,5 +1,6 @@
 package com.example.smilejobportal.Activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -75,5 +76,12 @@ class SearchResultsActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {}
         })
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, SearchActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

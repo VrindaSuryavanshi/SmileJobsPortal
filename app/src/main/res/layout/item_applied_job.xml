@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp"
+    android:elevation="6dp"
+    android:backgroundTint="@android:color/white"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Job Title -->
+        <TextView
+            android:id="@+id/applied_job_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Android Developer"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:textColor="@color/black" />
+
+        <!-- Company Name -->
+        <TextView
+            android:id="@+id/applied_company_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ABC Tech Pvt. Ltd."
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="@color/gray" />
+
+        <!-- Location, Time -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="6dp">
+
+            <TextView
+                android:id="@+id/applied_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pimpri"
+                android:drawableStart="@drawable/location"
+                android:drawablePadding="4dp"
+                android:paddingEnd="12dp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/applied_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Full-time"
+                android:drawableStart="@drawable/job_type"
+                android:drawablePadding="4dp"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <!-- Salary and Type -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:id="@+id/applied_salary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="30k - 50k"
+                android:drawableStart="@drawable/salary"
+                android:drawablePadding="4dp"
+                android:paddingEnd="12dp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/applied_model"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="In Office"
+                android:drawableStart="@drawable/working_model"
+                android:drawablePadding="4dp"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <!-- Application Date -->
+        <TextView
+            android:id="@+id/applied_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Applied on: May 28, 2025"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="@color/gray"
+            android:layout_marginTop="8dp" />
+
+        <!-- HR Message -->
+        <TextView
+            android:id="@+id/applied_hr_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HR will contact you back if shortlisted."
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="@color/gray"
+            android:layout_marginTop="4dp" />
+
+        <!-- HR Status -->
+        <TextView
+            android:id="@+id/applied_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status: Pending"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textStyle="bold"
+            android:textColor="@color/purple"
+            android:layout_marginTop="4dp" />
+
+        <!-- View Resume Button -->
+        <TextView
+            android:id="@+id/applied_resume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Resume"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            android:textColor="@color/purple"
+            android:background="?attr/selectableItemBackground"
+            android:padding="8dp"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

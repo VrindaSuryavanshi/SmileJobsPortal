@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.smilejobportal.Activity.LoginActivity;
 import com.example.smilejobportal.Model.JobModel;
 import com.example.smilejobportal.R;
 import com.google.android.material.navigation.NavigationView;
@@ -41,11 +42,11 @@ public class AdminUpdateJobActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_update_job);
 
         // Setup Toolbar and Drawer
-        toolbar = findViewById(R.id.toolbar); // Must exist in layout
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        drawerLayout = findViewById(R.id.drawerLayout); // Must exist in layout
-        navigationView = findViewById(R.id.navigationView); // Must exist in layout
+        drawerLayout = findViewById(R.id.drawerLayout);
+        navigationView = findViewById(R.id.navigationView);
 
         drawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar,
@@ -153,11 +154,6 @@ public class AdminUpdateJobActivity extends AppCompatActivity {
         );
     }
 
-//    private void handleNavigationItem(@NonNull MenuItem item) {
-//        int id = item.getItemId();
-//        // TODO: Handle each navigation option as needed
-//        drawerLayout.closeDrawer(GravityCompat.START);
-//    }
     private boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.jobs_list:
@@ -169,6 +165,17 @@ public class AdminUpdateJobActivity extends AppCompatActivity {
             case R.id.users_list:
                 startActivity(new Intent(this, AllUsersActivity.class));
                 return true;
+            case R.id.contacted_by_hr:
+                startActivity(new Intent(this, AdminContactedByHrCallActivity.class));
+                return true;
+            case R.id.add_new_job:
+                startActivity(new Intent(this, AdminAddJobDataActivity.class));
+                return true;
+
+                case R.id.logout:
+                finishAffinity();
+                startActivity(new Intent(this, LoginActivity.class));
+                return true;
 
         }
         return false;
@@ -177,10 +184,9 @@ public class AdminUpdateJobActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
+        Intent intent = new Intent(this, AdminDashboardActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
