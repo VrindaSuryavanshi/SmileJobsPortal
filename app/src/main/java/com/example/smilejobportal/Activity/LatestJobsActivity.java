@@ -5,6 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +27,7 @@ import com.example.smilejobportal.Model.JobModel;
 import com.example.smilejobportal.R;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +41,8 @@ import java.util.List;
 public class LatestJobsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+
+    private TextView emptyMessageText;
     private LatestJobAdapter jobAdapter;
     private List<JobModel> jobList;
     private DatabaseReference jobRef;
@@ -45,6 +52,8 @@ public class LatestJobsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_latest_jobs);
+
+        emptyMessageText = findViewById(R.id.emptyMessageText);
 
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,14 +76,79 @@ public class LatestJobsActivity extends AppCompatActivity {
 
 
         jobList = new ArrayList<>();
-        jobAdapter = new LatestJobAdapter(jobList); // Pass context if your adapter needs it
+        jobAdapter = new LatestJobAdapter();
         recyclerView.setAdapter(jobAdapter);
 
         jobRef = FirebaseDatabase.getInstance().getReference("jobs");
 
+        MaterialAutoCompleteTextView spinnerFilter = findViewById(R.id.spinnerFilter);
+
+// Filter options
+        String[] filterOptions = {"All", "Last 24 hours", "Last 7 days", "Last 15 days"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                R.layout.list_item_dropdown,  // Make sure this layout is a simple TextView
+                filterOptions
+        );
+        spinnerFilter.setAdapter(adapter);
+
+//  Set default to "All" without triggering listener
+        spinnerFilter.setText("All", false);
+
+//  Show all jobs immediately
+        filterJobsByTime("All");
+
+//  Listen for changes
+        spinnerFilter.setOnItemClickListener((parent, view, position, id) -> {
+            String selected = parent.getItemAtPosition(position).toString();
+            filterJobsByTime(selected);
+        });
+
         loadJobsInReverseOrder();
 
     }
+
+    private void filterJobsByTime(String option) {
+
+        long currentTime = System.currentTimeMillis();
+        long timeLimit;
+
+        switch (option) {
+            case "Last 24 hours":
+                timeLimit = currentTime - (24 * 60 * 60 * 1000);
+                break;
+            case "Last 7 days":
+                timeLimit = currentTime - (7 * 24 * 60 * 60 * 1000);
+                break;
+            case "Last 15 days":
+                timeLimit = currentTime - (15 * 24 * 60 * 60 * 1000);
+                break;
+            default:
+                timeLimit = 0; // Show all
+                break;
+        }
+
+        List<JobModel> filteredJobs = new ArrayList<>();
+        for (JobModel job : jobList) {
+            if (job.getTimestamp() >= timeLimit) {
+                filteredJobs.add(job);
+            }
+        }
+
+        if (filteredJobs.isEmpty()) {
+            emptyMessageText.setVisibility(View.VISIBLE);
+        } else {
+            emptyMessageText.setVisibility(View.GONE);
+        }
+
+        // Reverse so newest appears first
+//        Collections.reverse(filteredJobs);
+        jobAdapter.setJobList(filteredJobs);
+        jobAdapter.notifyDataSetChanged();
+
+    }
+
 
     private void loadJobsInReverseOrder() {
         jobRef.orderByChild("timestamp").addValueEventListener(new ValueEventListener() {
@@ -88,10 +162,10 @@ public class LatestJobsActivity extends AppCompatActivity {
                     }
                 }
 
-                // Reverse to show newest job first
-                Collections.reverse(jobList);
+                // Sort by timestamp DESCENDING (latest first)
+                Collections.sort(jobList, (j1, j2) -> Long.compare(j2.getTimestamp(), j1.getTimestamp()));
 
-                jobAdapter.notifyDataSetChanged();
+                filterJobsByTime("All"); // Will auto-update UI
             }
 
             @Override

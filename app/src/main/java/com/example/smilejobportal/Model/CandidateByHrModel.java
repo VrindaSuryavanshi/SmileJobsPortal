@@ -1,14 +1,15 @@
 package com.example.smilejobportal.Model;
 public class CandidateByHrModel  {
-    public String id, name, email, contact ,companyName,positionName,resumeFileName,resumeUrl;
+    public String id, jobId, name, email, contact ,companyName,positionName,resumeFileName,resumeUrl;
      public String userId;
     ;
 
     public CandidateByHrModel() {
         // Default constructor required for Firebase
     }
-    public CandidateByHrModel(String id, String name, String email, String contact, String companyName , String positionName, String resumeFileName,String resumeUrl) {
+    public CandidateByHrModel(String id, String jobId, String name, String email, String contact, String companyName , String positionName, String resumeFileName,String resumeUrl) {
         this.id = id;
+        this.jobId = jobId;
         this.name = name;
         this.email = email;
         this.contact = contact;
@@ -19,6 +20,7 @@ public class CandidateByHrModel  {
     }
 
     public String getId() { return id; }
+    public String getJobId() { return jobId; }
     public String getName() { return name; }
     public String getEmail() { return email; }
     public String getContact() { return contact; }
@@ -29,6 +31,7 @@ public class CandidateByHrModel  {
     public String getUserId() { return userId; }
 
     public void setId(String id) { this.id = id; }
+    public void setJobId(String jobId) { this.jobId = jobId; }
     public void setName(String name) { this.name = name; }
     public void setEmail(String email) { this.email = email; }
     public void setContact(String contact) { this.contact = contact; }

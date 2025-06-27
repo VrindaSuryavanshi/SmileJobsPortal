@@ -27,21 +27,18 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemViewType(int position) {
         ChatMessage message = chatMessages.get(position);
-        if ("user".equals(message.getSender())) {
-            return VIEW_TYPE_USER;
-        } else {
-            return VIEW_TYPE_BOT;
-        }
+        return "user".equals(message.getSender()) ? VIEW_TYPE_USER : VIEW_TYPE_BOT;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view;
         if (viewType == VIEW_TYPE_USER) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_user, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_user, parent, false);
             return new UserViewHolder(view);
         } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_bot, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_bot, parent, false);
             return new BotViewHolder(view);
         }
     }
@@ -65,6 +62,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         chatMessages.clear();
         notifyDataSetChanged();
     }
+
     static class UserViewHolder extends RecyclerView.ViewHolder {
         TextView textMessage;
 

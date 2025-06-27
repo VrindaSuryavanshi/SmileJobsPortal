@@ -12,9 +12,9 @@
         android:title="Candidates List" />
 
     <item
-        android:id="@+id/contacted_by_hr"
-        android:icon="@drawable/baseline_call_24"
-        android:title="Candidated by HR" />
+        android:id="@+id/go_to_dashboard"
+        android:icon="@drawable/dashboard"
+        android:title="Go To Dashboard" />
 
     <item
         android:id="@+id/users_list"

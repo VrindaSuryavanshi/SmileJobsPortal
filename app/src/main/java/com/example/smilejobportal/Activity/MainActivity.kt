@@ -1,9 +1,14 @@
 package com.example.smilejobportal.Activity
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
@@ -12,6 +17,8 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -33,6 +40,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
 
@@ -76,6 +84,10 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        binding.btnUpdateProfile.setOnClickListener {
+            startActivity(Intent(this,ProfileActivity::class.java))
+        }
+
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
@@ -105,9 +117,32 @@ class MainActivity : AppCompatActivity() {
             overridePendingTransition(0, 0)
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    getApplicationContext() as Activity?, arrayOf<String>(
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ), 101
+                )
+            }
+        }
+
+//        FirebaseMessaging.getInstance().subscribeToTopic("allUsers")
+//            .addOnCompleteListener({ task ->
+//                if (task.isSuccessful()) {
+//                    Log.d("FCM", "Subscribed to allUsers topic")
+//                }
+//            })
+
         checkForNewJobs()
 
     }
+
+
     private fun updateNotificationBadge() {
         val prefs = getSharedPreferences("notifications", Context.MODE_PRIVATE)
         val count = prefs.getInt("unread_count", 0)

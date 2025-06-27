@@ -26,9 +26,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.messaging.FirebaseMessaging
 
 class LoginActivity : AppCompatActivity() {
@@ -54,12 +59,40 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        FirebaseMessaging.getInstance().subscribeToTopic("allUsers")
+            .addOnCompleteListener(OnCompleteListener { task: Task<Void?>? ->
+                if (task!!.isSuccessful()) {
+                    Log.d("FCM", "Subscribed to allUsers topic")
+                }
+            })
+
+
         if (FirebaseAuth.getInstance().currentUser != null) {
-            startActivity(Intent(this, MainActivity::class.java))
-            overridePendingTransition(0, 0)
-            finish()
+            val uid = FirebaseAuth.getInstance().currentUser!!.uid
+            val userRef = FirebaseDatabase.getInstance().getReference("users").child(uid)
+
+            userRef.child("contact").addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val contact = snapshot.getValue(String::class.java)
+                    if (!contact.isNullOrEmpty()) {
+                        // Contact already exists → go to MainActivity
+                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                    } else {
+                        // Contact not found → go to ContactDetailsActivity
+                        startActivity(Intent(this@LoginActivity, ContactDetailsActivity::class.java))
+                    }
+                    finish()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(this@LoginActivity, "Failed to check contact", Toast.LENGTH_SHORT).show()
+                }
+            })
+
+
             return
         }
+
 
         setContentView(R.layout.activity_login)
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
@@ -77,7 +110,7 @@ class LoginActivity : AppCompatActivity() {
         backButton.setOnClickListener { finish() }
 
         websiteTextView.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.smilejobs.in"))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.samarthjob.com"))
             startActivity(intent)
         }
 
@@ -170,18 +203,33 @@ class LoginActivity : AppCompatActivity() {
                         val email = it.email
                         val userMap = mapOf("name" to name, "email" to email)
 
-                        FirebaseDatabase.getInstance().getReference("users")
-                            .child(uid)
-                            .updateChildren(userMap)
-                            .addOnSuccessListener {
-                                askNotificationPermission()
-                                saveFcmTokenToDatabase()
-                            }
-                    }
+                        val databaseRef = FirebaseDatabase.getInstance().getReference("users").child(uid)
 
-                    startActivity(Intent(this, MainActivity::class.java))
-                    overridePendingTransition(0, 0)
-                    finish()
+                        // Save basic info
+                        databaseRef.updateChildren(userMap).addOnSuccessListener {
+                            askNotificationPermission()
+                            saveFcmTokenToDatabase()
+
+                            // Now check for contact field
+                            databaseRef.child("contact").addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    val contact = snapshot.getValue(String::class.java)
+                                    if (!contact.isNullOrEmpty()) {
+                                        // Contact exists → go to MainActivity
+                                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                                    } else {
+                                        // Contact missing → go to ContactDetailsActivity
+                                        startActivity(Intent(this@LoginActivity, ContactDetailsActivity::class.java))
+                                    }
+                                    finish()
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                    Toast.makeText(this@LoginActivity, "Error checking contact info", Toast.LENGTH_SHORT).show()
+                                }
+                            })
+                        }
+                    }
                 } else {
                     Toast.makeText(this, "Authentication Failed", Toast.LENGTH_SHORT).show()
                 }

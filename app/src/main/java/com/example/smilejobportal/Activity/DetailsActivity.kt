@@ -3,7 +3,6 @@ package com.example.smilejobportal.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Typeface
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -26,7 +25,6 @@ import com.example.smilejobportal.Model.JobModel
 import com.example.smilejobportal.R
 import com.example.smilejobportal.databinding.ActivityDetailsBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -80,7 +78,7 @@ class DetailsActivity : AppCompatActivity() {
         jobId = item.jobId
 
         // Disable Call button until we fetch HR contact
-        binding.callHrButton.isEnabled = false
+//        binding.callHrButton.isEnabled = false
 
         // Fetch HR contact
         val safeJobId = jobId!!.replace(".", "_")
@@ -96,10 +94,7 @@ class DetailsActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 hrContact = snapshot.getValue(String::class.java)
                 if (!hrContact.isNullOrBlank()) {
-                    binding.callHrButton.isEnabled = true
-                } else {
-                    Toast.makeText(this@DetailsActivity,
-                        "HR contact not found", Toast.LENGTH_SHORT).show()
+//                    binding.callHrButton.isEnabled = true
                 }
             }
 
@@ -110,64 +105,64 @@ class DetailsActivity : AppCompatActivity() {
         })
 
         // Call button click logic
-        binding.callHrButton.setOnClickListener {
-            hrContact?.let { number ->
-                if (number.matches(Regex("^\\d{10}$"))) {
-                    val dialIntent = Intent(Intent.ACTION_DIAL).apply {
-                        data = Uri.parse("tel:$number")
-                    }
-                    startActivity(dialIntent)
-
-                    // Fetch user info and save to "contactedByHr" node
-                    val userId = auth.currentUser?.uid
-                    if (userId != null) {
-                        val userRef = database.child("users").child(userId)
-                        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                            override fun onDataChange(snapshot: DataSnapshot) {
-                                val name = snapshot.child("name").getValue(String::class.java) ?: "N/A"
-                                val email = snapshot.child("email").getValue(String::class.java) ?: "N/A"
-                                val contact = snapshot.child("contact").getValue(String::class.java) ?: "N/A"
-                                val resumeFileName = snapshot.child("resumeFileName").getValue(String::class.java) ?: "N/A"
-                                val resumeUrl = snapshot.child("resumeUrl").getValue(String::class.java) ?: "N/A"
-
-                                val contactedRef = database.child("contactedByHr").push()
-                                val data = mapOf(
-                                    "userId" to userId,
-                                    "name" to name,
-                                    "email" to email,
-                                    "contact" to contact,
-                                    "resumeFileName" to resumeFileName,
-                                    "resumeUrl" to resumeUrl,
-                                    "companyName" to item.company,
-                                    "positionName" to item.title,
-                                    "jobId" to item.jobId,
-                                    "status" to "Contacted by HR"
-                                )
-
-                                contactedRef.setValue(data)
-                            }
-
-                            override fun onCancelled(error: DatabaseError) {
-                                Toast.makeText(this@DetailsActivity,
-                                    "Failed to log HR contact", Toast.LENGTH_SHORT).show()
-                            }
-                        })
-                    }
-
-                } else {
-                    Snackbar.make(binding.root, "HR will contact you back...\nPlease apply for this position!", Snackbar.LENGTH_LONG)
-                        .setAction("Apply Now") {
-                            val intent = Intent(this, SubmitDataToDatabase::class.java)
-                            intent.putExtra("jobTitle", item.title)
-                            intent.putExtra("companyName", item.company)
-                            startActivity(intent)
-                        }
-                        .setBackgroundTint(ContextCompat.getColor(this, R.color.purple))
-                        .setTextColor(ContextCompat.getColor(this, android.R.color.white))
-                        .show()
-                }
-            } ?: Toast.makeText(this, "HR contact not available", Toast.LENGTH_SHORT).show()
-        }
+//        binding.callHrButton.setOnClickListener {
+//            hrContact?.let { number ->
+//                if (number.matches(Regex("^\\d{10}$"))) {
+//                    val dialIntent = Intent(Intent.ACTION_DIAL).apply {
+//                        data = Uri.parse("tel:$number")
+//                    }
+//                    startActivity(dialIntent)
+//
+//                    // Fetch user info and save to "contactedByHr" node
+//                    val userId = auth.currentUser?.uid
+//                    if (userId != null) {
+//                        val userRef = database.child("users").child(userId)
+//                        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+//                            override fun onDataChange(snapshot: DataSnapshot) {
+//                                val name = snapshot.child("name").getValue(String::class.java) ?: "N/A"
+//                                val email = snapshot.child("email").getValue(String::class.java) ?: "N/A"
+//                                val contact = snapshot.child("contact").getValue(String::class.java) ?: "N/A"
+//                                val resumeFileName = snapshot.child("resumeFileName").getValue(String::class.java) ?: "N/A"
+//                                val resumeUrl = snapshot.child("resumeUrl").getValue(String::class.java) ?: "N/A"
+//
+//                                val contactedRef = database.child("contactedByHr").push()
+//                                val data = mapOf(
+//                                    "userId" to userId,
+//                                    "name" to name,
+//                                    "email" to email,
+//                                    "contact" to contact,
+//                                    "resumeFileName" to resumeFileName,
+//                                    "resumeUrl" to resumeUrl,
+//                                    "companyName" to item.company,
+//                                    "positionName" to item.title,
+//                                    "jobId" to item.jobId,
+//                                    "status" to "Contacted by HR"
+//                                )
+//
+//                                contactedRef.setValue(data)
+//                            }
+//
+//                            override fun onCancelled(error: DatabaseError) {
+//                                Toast.makeText(this@DetailsActivity,
+//                                    "Failed to log HR contact", Toast.LENGTH_SHORT).show()
+//                            }
+//                        })
+//                    }
+//
+//                } else {
+//                    Snackbar.make(binding.root, "HR will contact you back...\nPlease apply for this position!", Snackbar.LENGTH_LONG)
+//                        .setAction("Apply Now") {
+//                            val intent = Intent(this, SubmitDataToDatabase::class.java)
+//                            intent.putExtra("jobTitle", item.title)
+//                            intent.putExtra("companyName", item.company)
+//                            startActivity(intent)
+//                        }
+//                        .setBackgroundTint(ContextCompat.getColor(this, R.color.purple))
+//                        .setTextColor(ContextCompat.getColor(this, android.R.color.white))
+//                        .show()
+//                }
+//            } ?: Toast.makeText(this, "HR contact not available", Toast.LENGTH_SHORT).show()
+//        }
 
         val shareButton: ImageView = findViewById(R.id.imageView8)
         shareButton.setOnClickListener {

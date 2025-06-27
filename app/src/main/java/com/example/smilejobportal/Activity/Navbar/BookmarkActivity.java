@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +41,7 @@ public class BookmarkActivity extends AppCompatActivity {
 
         TextView textNoBookmarks = findViewById(R.id.textNoBookmarks);
         RecyclerView recyclerView = findViewById(R.id.recyclerViewBookmark);
+        LinearLayout layoutNoJobs = findViewById(R.id.layoutNoJobs);
 
         List<JobModel> bookmarks = loadBookmarks();
         binding.recyclerViewBookmark.setLayoutManager(new LinearLayoutManager(this));
@@ -47,13 +50,17 @@ public class BookmarkActivity extends AppCompatActivity {
 
         if (bookmarks.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
+            layoutNoJobs.setVisibility(View.VISIBLE);
             textNoBookmarks.setVisibility(View.VISIBLE);
         } else {
             recyclerView.setVisibility(View.VISIBLE);
-            textNoBookmarks.setVisibility(View.GONE);
+            layoutNoJobs.setVisibility(View.GONE);
         }
 
-           setupBottomNav();
+//        ImageView img = findViewById(R.id.imgNoJobs);
+//        img.setImageResource(R.drawable.about);
+
+        setupBottomNav();
     }
 
     @Override

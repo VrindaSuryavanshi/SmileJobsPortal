@@ -78,7 +78,22 @@ class ContactedByHrAdapter( private val context: Context,private val list: Mutab
             }
         }
 
-
+        holder.itemView.findViewById<Button>(R.id.btn_delete).setOnClickListener {
+            val jobId = model.getJobId()
+            if (!jobId.isNullOrEmpty()) {
+                FirebaseDatabase.getInstance().getReference("contactedByHr")
+                    .child(jobId)
+                    .removeValue()
+                    .addOnSuccessListener {
+                        Toast.makeText(context, "Candidate deleted", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show()
+                    }
+            } else {
+                Toast.makeText(context, "ID not found", Toast.LENGTH_SHORT).show()
+            }
+        }
 
     }
 

@@ -1,7 +1,5 @@
 package com.example.smilejobportal.Adapter
 
-
-
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -19,21 +17,21 @@ import com.example.smilejobportal.databinding.VieholderLatestJobBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class LatestJobAdapter(private val items: List<JobModel>) : RecyclerView.Adapter<LatestJobAdapter.Viewholder>() {
+class LatestJobAdapter : RecyclerView.Adapter<LatestJobAdapter.Viewholder>() {
 
+    private var items: MutableList<JobModel> = mutableListOf()
     private lateinit var context: Context
 
     inner class Viewholder(val binding: VieholderLatestJobBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Viewholder {
         context = parent.context
-        val binding = VieholderLatestJobBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = VieholderLatestJobBinding.inflate(LayoutInflater.from(context), parent, false)
         return Viewholder(binding)
     }
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: Viewholder, position: Int) {
-
         val item = items[position]
 
         with(holder.binding) {
@@ -45,61 +43,60 @@ class LatestJobAdapter(private val items: List<JobModel>) : RecyclerView.Adapter
             levelTxt.text = item.experience
             salaryTxt.text = item.salary
 
-            val drawableResourceId = holder.itemView.context.resources.getIdentifier(item.picUrl, "drawable", holder.itemView.context.packageName)
-            Glide.with(holder.itemView.context)
+            val drawableResourceId = context.resources.getIdentifier(item.picUrl, "drawable", context.packageName)
+            Glide.with(context)
                 .load(drawableResourceId)
                 .into(pic)
 
             val currentTime = System.currentTimeMillis()
             val jobTime = item.timestamp ?: 0L
-            val hoursDifference = (currentTime - jobTime) / (1000 * 60 * 60)
-
-
             val oneDayMillis = 24 * 60 * 60 * 1000
 
-            newTagTxt.visibility = if (hoursDifference < 24) View.VISIBLE else View.GONE
-
-            if (currentTime - item.timestamp <= oneDayMillis) {
-                holder.binding.newTagTxt.visibility = View.VISIBLE
+            if (currentTime - jobTime <= oneDayMillis) {
+                newTagTxt.visibility = View.VISIBLE
                 val animation = AnimationUtils.loadAnimation(context, R.anim.pulse_animation)
-                holder.binding.newTagTxt.startAnimation(animation)
+                newTagTxt.startAnimation(animation)
             } else {
-                holder.binding.newTagTxt.clearAnimation()
-                holder.binding.newTagTxt.visibility = View.GONE
+                newTagTxt.clearAnimation()
+                newTagTxt.visibility = View.GONE
             }
-            // Navigate to Details
-            holder.binding.applyButton.setOnClickListener {
+
+            applyButton.setOnClickListener {
                 val intent = Intent(context, DetailsActivity::class.java)
                 intent.putExtra("object", item)
                 context.startActivity(intent)
             }
+
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, DetailsActivity::class.java)
                 intent.putExtra("object", item)
                 context.startActivity(intent)
             }
 
-            holder.binding.bookmarkImg.setOnClickListener {
-                if (isBookmarked(holder.itemView.context, item)) {
-                    removeBookmark(holder.itemView.context, item)
-                    holder.binding.bookmarkImg.setImageResource(R.drawable.bookmark)
-                    Toast.makeText(holder.itemView.context, "Removed from bookmarks", Toast.LENGTH_SHORT).show()
+            bookmarkImg.setOnClickListener {
+                if (isBookmarked(context, item)) {
+                    removeBookmark(context, item)
+                    bookmarkImg.setImageResource(R.drawable.bookmark)
+                    Toast.makeText(context, "Removed from bookmarks", Toast.LENGTH_SHORT).show()
                 } else {
-                    saveBookmark(holder.itemView.context, item)
-                    holder.binding.bookmarkImg.setImageResource(R.drawable.bookmark_selected)
-                    Toast.makeText(holder.itemView.context, "Job bookmarked!", Toast.LENGTH_SHORT).show()
+                    saveBookmark(context, item)
+                    bookmarkImg.setImageResource(R.drawable.bookmark_selected)
+                    Toast.makeText(context, "Job bookmarked!", Toast.LENGTH_SHORT).show()
                 }
             }
-
-
         }
     }
 
-    override fun getItemCount(): Int {
+    override fun getItemCount(): Int = items.size
 
-        return  items.size
+    fun setJobList(jobList: List<JobModel>) {
+        items.clear()
+        items.addAll(jobList)
+        notifyDataSetChanged()
     }
 }
+
+
 private fun isBookmarked(context: Context, job: JobModel): Boolean {
     val sharedPref = context.getSharedPreferences("Bookmarks", Context.MODE_PRIVATE)
     val gson = Gson()

@@ -24,6 +24,36 @@
             app:titleCentered="true"
             app:navigationIcon="@drawable/back" />
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/filterInputLayout"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="Filter jobs by time">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/spinnerFilter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:drawableEnd="@drawable/ic_arrow_drop_down" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/emptyMessageText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No jobs found for this period"
+            android:textAlignment="center"
+            android:visibility="gone"
+            android:textColor="@color/gray"
+            android:textSize="16sp"
+            android:padding="16dp"
+            android:fontFamily="sans-serif-medium"/>
+
+
         <!-- RecyclerView inside a Card-style container -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

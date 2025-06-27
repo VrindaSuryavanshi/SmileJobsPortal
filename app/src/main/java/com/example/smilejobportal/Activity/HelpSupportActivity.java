@@ -53,7 +53,7 @@ public class HelpSupportActivity extends AppCompatActivity {
 
         buttonEmail.setOnClickListener(v -> {
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-            emailIntent.setData(Uri.parse("mailto:info.smilejobs@gmail.com"));
+            emailIntent.setData(Uri.parse("mailto:iinfo.samarthjob@gmail.com"));
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Support Request");
             startActivity(Intent.createChooser(emailIntent, "Send Email"));
         });

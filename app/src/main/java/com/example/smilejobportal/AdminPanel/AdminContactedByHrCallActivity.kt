@@ -100,7 +100,9 @@ class AdminContactedByHrCallActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 contactedList.clear()
                 for (child in snapshot.children) {
-                    child.getValue(CandidateByHrModel::class.java)?.let { contactedList.add(it) }
+                    val model = child.getValue(CandidateByHrModel::class.java)
+                    model?.jobId = child.key
+                    model?.let { contactedList.add(it) }
                 }
                 // first display = full list
                 filteredList.clear()
@@ -153,8 +155,8 @@ class AdminContactedByHrCallActivity : AppCompatActivity() {
                 return true
             }
 
-            R.id.contacted_by_hr -> {
-                startActivity(Intent(this, AdminContactedByHrCallActivity::class.java))
+            R.id.go_to_dashboard -> {
+                startActivity(Intent(this, AdminDashboardActivity::class.java))
                 return true
             }
 

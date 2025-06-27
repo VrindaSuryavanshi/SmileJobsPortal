@@ -51,6 +51,37 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp" />
 
+            <!-- No Jobs Layout -->
+            <LinearLayout
+                android:id="@+id/layoutNoJobs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/imgNoJobs"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:src="@drawable/no_jobs"
+                    android:contentDescription="No Jobs Illustration"
+                    android:layout_marginBottom="16dp" />
+
+                <TextView
+                    android:id="@+id/tvNoJobs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No jobs available"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/darker_gray"
+                    android:gravity="center" />
+            </LinearLayout>
+
+
             <!-- Recent Jobs RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewExplore"
@@ -63,6 +94,21 @@
                 tools:listitem="@layout/item_admin_job" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <ImageButton
+        android:id="@+id/btnSearchIcon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="110dp"
+        android:background="@drawable/bg_rounded_button"
+        android:src="@drawable/search_icon"
+        android:contentDescription="Search"
+        android:padding="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:tint="@android:color/white" />
 
     <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView

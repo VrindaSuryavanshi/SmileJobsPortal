@@ -116,7 +116,52 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="@drawable/white_rounded_bg"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:elevation="4dp"
+            android:clipToPadding="false">
+
+            <TextView
+                android:id="@+id/tvProfileHint"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Updated profile gives you more chances to get hired!"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginEnd="8dp" />
+            <!--                android:backgroundTint="@android:color/transparent"-->
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnUpdateProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:text="Update Profile"
+                style="@style/Widget.MaterialComponents.Button"
+                android:backgroundTint="#CBC3E3"
+                android:textAllCaps="false"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
+                app:strokeColor="@color/purple"
+                app:strokeWidth="1dp"
+                android:textColor="@color/purple"
+                app:cornerRadius="24dp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"

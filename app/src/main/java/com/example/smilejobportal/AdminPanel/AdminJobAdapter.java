@@ -49,6 +49,11 @@ public class AdminJobAdapter extends RecyclerView.Adapter<AdminJobAdapter.JobVie
 
         holder.jobTitle.setText(job.getTitle());
         holder.companyName.setText(job.getCompany());
+        holder.jobLocation.setText("📍 " + job.getLocation());
+        holder.jobType.setText("🛠️ " + job.getJobType());
+        holder.jobSalary.setText("💰 " + job.getSalary());
+        holder.jobAbout.setText("📝 " + job.getAbout());
+
 
         holder.updateButton.setOnClickListener(v -> {
             new AlertDialog.Builder(context)
@@ -62,6 +67,7 @@ public class AdminJobAdapter extends RecyclerView.Adapter<AdminJobAdapter.JobVie
                     .setNegativeButton("Cancel", null)
                     .show();
         });
+
 
         holder.deleteButton.setOnClickListener(v -> {
             new AlertDialog.Builder(context)
@@ -88,15 +94,21 @@ public class AdminJobAdapter extends RecyclerView.Adapter<AdminJobAdapter.JobVie
     }
 
     static class JobViewHolder extends RecyclerView.ViewHolder {
-        TextView jobTitle, companyName;
+        TextView jobTitle, companyName, jobLocation, jobType, jobSalary, jobAbout;
         Button updateButton, deleteButton;
 
         public JobViewHolder(@NonNull View itemView) {
             super(itemView);
             jobTitle = itemView.findViewById(R.id.jobTitle);
             companyName = itemView.findViewById(R.id.companyName);
+            jobLocation = itemView.findViewById(R.id.jobLocation);
+            jobType = itemView.findViewById(R.id.jobType);
+            jobSalary = itemView.findViewById(R.id.jobSalary);
+            jobAbout = itemView.findViewById(R.id.jobAbout); // ✅ Fix: add this line
             updateButton = itemView.findViewById(R.id.updateButton);
             deleteButton = itemView.findViewById(R.id.deleteButton);
         }
     }
+
+
 }

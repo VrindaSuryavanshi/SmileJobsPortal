@@ -152,10 +152,12 @@ public class CandidateListActivity extends AppCompatActivity {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     CandidateModel model = ds.getValue(CandidateModel.class);
                     if (model != null) {
+                        model.setId(ds.getKey());
                         newItems.add(model);
                         lastKey = ds.getKey();
                     }
                 }
+
 
                 if (newItems.size() < PAGE_SIZE) {
                     isLastPage = true;
@@ -196,6 +198,7 @@ public class CandidateListActivity extends AppCompatActivity {
                     for (DataSnapshot ds : snapshot.getChildren()) {
                         CandidateModel candidate = ds.getValue(CandidateModel.class);
                         if (candidate != null) {
+                            candidate.setId(ds.getKey());
                             candidateList.add(candidate);
                         }
                     }
@@ -229,8 +232,8 @@ public class CandidateListActivity extends AppCompatActivity {
             case R.id.users_list:
                 startActivity(new Intent(this, AllUsersActivity.class));
                 return true;
-            case R.id.contacted_by_hr:
-                startActivity(new Intent(this, AdminContactedByHrCallActivity.class));
+            case R.id.go_to_dashboard:
+                startActivity(new Intent(this, AdminDashboardActivity.class));
                 return true;
             case R.id.add_new_job:
                 startActivity(new Intent(this, AdminAddJobDataActivity.class));

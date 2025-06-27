@@ -367,22 +367,22 @@
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/callHrButton"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="4dp"
-                            android:background="@drawable/btn_green_rounded"
-                            android:text="Call HR"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:drawableStart="@drawable/baseline_call_24"
-                            android:drawablePadding="4dp"
-                            android:paddingStart="24dp"
-                            android:paddingEnd="4dp" />
+<!--                        <androidx.appcompat.widget.AppCompatButton-->
+<!--                            android:id="@+id/callHrButton"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="50dp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:layout_marginStart="16dp"-->
+<!--                            android:layout_marginEnd="4dp"-->
+<!--                            android:background="@drawable/btn_green_rounded"-->
+<!--                            android:text="Call HR"-->
+<!--                            android:textColor="@color/white"-->
+<!--                            android:textSize="18sp"-->
+<!--                            android:textStyle="bold"-->
+<!--                            android:drawableStart="@drawable/baseline_call_24"-->
+<!--                            android:drawablePadding="4dp"-->
+<!--                            android:paddingStart="24dp"-->
+<!--                            android:paddingEnd="4dp" />-->
 
                     </LinearLayout>
 

@@ -25,17 +25,37 @@
                 android:layout_height="match_parent"
                 android:tooltipText="Bookmarked Here....!"/>
 
-            <TextView
-                android:id="@+id/textNoBookmarks"
+
+            <LinearLayout
+                android:id="@+id/layoutNoJobs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="No bookmarks yet"
-                android:textSize="16sp"
-                android:textColor="#808080"
+                android:orientation="vertical"
                 android:gravity="center"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
                 android:visibility="gone"
-                android:layout_marginTop="24dp"
-                />
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/imgNoJobs"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    app:srcCompat="@drawable/no_bookmark"
+                    android:contentDescription="No Jobs Illustration"
+                    android:layout_marginBottom="16dp" />
+
+                <TextView
+                    android:id="@+id/textNoBookmarks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No bookmarks yet"
+                    android:textSize="16sp"
+                    android:textColor="#808080"
+                    android:gravity="center" />
+            </LinearLayout>
+
+
 
         </LinearLayout>
     </ScrollView>

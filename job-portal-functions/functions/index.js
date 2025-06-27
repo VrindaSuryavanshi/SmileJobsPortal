@@ -1,31 +1,32 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+admin.initializeApp();
 
-admin.initializeApp({
-  credential: admin.credential.cert(require("./serviceAccountKey.json"))
-});
+exports.sendNewJobNotification = functions.database
+  .ref("/jobs/{jobId}")
+  .onCreate(async (snapshot, context) => {
+    const job = snapshot.val();
 
-exports.sendNotification = functions.https.onRequest((req, res) => {
-  if (req.method !== "POST") {
-    return res.status(405).send("Method Not Allowed");
-  }
+    const payload = {
+      notification: {
+        title: `🆕 New Job Posted: ${job.title || "New Opportunity"}`,
+        body: `${job.company || "A company"} is hiring at ${job.location || "various locations"}`,
+        click_action: "OPEN_MAIN_ACTIVITY",
+        sound: "default"
+      },
+      data: {
+        jobId: context.params.jobId,
+        jobTitle: job.title || "",
+        company: job.company || ""
+      }
+    };
 
-  const { token, title, body } = req.body;
+    try {
+      const response = await admin.messaging().sendToTopic("allUsers", payload);
+      console.log("Notification sent successfully:", response);
+    } catch (error) {
+      console.error("Error sending notification:", error);
+    }
 
-  if (!token || !title || !body) {
-    return res.status(400).send({ success: false, error: "Missing token, title, or body." });
-  }
-
-  const message = {
-    notification: { title, body },
-    token
-  };
-
-  admin.messaging().send(message)
-    .then(response => {
-      res.status(200).send({ success: true, message: "Notification sent", response });
-    })
-    .catch(error => {
-      res.status(500).send({ success: false, error: error.message });
-    });
-});
+    return null;
+  });

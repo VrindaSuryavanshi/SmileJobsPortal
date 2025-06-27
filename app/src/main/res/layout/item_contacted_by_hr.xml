@@ -70,6 +70,13 @@
             android:textColor="@color/purple" />
 
         <!-- Call Button -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:textAlignment="textEnd">
+
         <Button
             android:id="@+id/btn_call"
             android:layout_width="wrap_content"
@@ -79,6 +86,19 @@
             android:layout_marginTop="8dp"
             android:backgroundTint="@color/purple"
             android:textColor="@android:color/white" />
+        <!-- Delete Button -->
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:layout_gravity="end"
+            android:layout_marginTop="4dp"
+            android:backgroundTint="#FF0000"
+            android:layout_marginStart="4dp"
+            android:textColor="@android:color/white" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

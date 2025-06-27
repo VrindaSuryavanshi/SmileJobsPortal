@@ -1,14 +1,15 @@
 package com.example.smilejobportal.Activity.Navbar;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
-import android.text.TextUtils;
+import android.text.InputType;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.smilejobportal.Activity.AppliedJobDetailsActivity;
@@ -24,15 +26,21 @@ import com.example.smilejobportal.Activity.MainActivity;
 import com.example.smilejobportal.Activity.SettingsActivity;
 import com.example.smilejobportal.R;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -40,11 +48,10 @@ public class ProfileActivity extends AppCompatActivity {
     private static final int PICK_RESUME_REQUEST = 102;
 
     private ImageView profileImage;
-
-    private TextInputEditText nameEditText, emailEditText;
-    private TextView  resumeFilenameText;
-    private TextInputEditText bioEditText, educationEditText;
-    private ImageView backButton;
+    private MaterialAutoCompleteTextView experienceDropdown;
+    private TextInputEditText editName, editEmail, editBio, editEducation, editCurrentCompany , editDesignation,
+            editCurrentSalary, editSkills, editJobDescription;
+    private TextView resumeFilenameText;
 
     private Uri selectedImageUri, selectedResumeUri;
 
@@ -52,8 +59,13 @@ public class ProfileActivity extends AppCompatActivity {
     private DatabaseReference databaseRef;
     private StorageReference storageRef;
     private FirebaseUser currentUser;
+    private MaterialCardView navSettingsLayout, appliedJobLayout, navLogoutLayout;
 
-
+    private MaterialAutoCompleteTextView autoCompleteEducation;
+    private String[] educationOptions = {
+            "Fresher", "0 to 1 year", "1 to 2 years", "2 to 3 years",
+                "3 to 5 years", "5 to 7 years", "7 to 10 years", "10+ years"
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,79 +82,106 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(new Intent(this, MainActivity.class));
             finish();
         });
+        autoCompleteEducation = findViewById(R.id.autoCompleteEducation);
+
+        autoCompleteEducation.setText("Fresher", false);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_dropdown_item_1line,
+                educationOptions
+        );
+        autoCompleteEducation.setAdapter(adapter);
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         databaseRef = FirebaseDatabase.getInstance().getReference("users");
         storageRef = FirebaseStorage.getInstance().getReference();
 
         profileImage = findViewById(R.id.profileImage);
-        nameEditText = findViewById(R.id.editName);
-        emailEditText = findViewById(R.id.editEmail);
-        bioEditText = findViewById(R.id.editBio);
-        educationEditText = findViewById(R.id.editEducation);
+        editName = findViewById(R.id.nameField);
+        editEmail = findViewById(R.id.emailField);
+
+        editBio = findViewById(R.id.bioField);
+        editEducation = findViewById(R.id.educationField);
+        experienceDropdown = findViewById(R.id.spinnerFilter);
+        editCurrentCompany = findViewById(R.id.currentCompanyNameField);
+        editDesignation = findViewById(R.id.designationField);
+        editCurrentSalary = findViewById(R.id.salaryField);
+        editSkills = findViewById(R.id.skillsField);
+        editJobDescription = findViewById(R.id.jobDescriptionField);
         resumeFilenameText = findViewById(R.id.resumeFileName);
 
         findViewById(R.id.uploadResumeText).setOnClickListener(v -> openResumePicker());
-        findViewById(R.id.profileImage).setOnClickListener(v -> openImagePicker());
+        findViewById(R.id.editImageIcon).setOnClickListener(v -> openImagePicker());
         findViewById(R.id.btnSaveProfile).setOnClickListener(v -> uploadProfileData());
 
-        findViewById(R.id.navSettingsLayout).setOnClickListener(v -> {
-            Intent intent = new Intent(this, SettingsActivity.class);
+        navSettingsLayout = findViewById(R.id.navSettingsLayout);
+        appliedJobLayout = findViewById(R.id.appliedJobLayout);
+        navLogoutLayout = findViewById(R.id.navLogoutLayout);
+
+        navSettingsLayout.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
+        appliedJobLayout.setOnClickListener(v -> startActivity(new Intent(this, AppliedJobDetailsActivity.class)));
+        navLogoutLayout.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-
-        });
-        findViewById(R.id.appliedJobLayout).setOnClickListener(v -> {
-            Intent intent = new Intent(this, AppliedJobDetailsActivity.class);
-            startActivity(intent);
+            Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
         });
 
-//        findViewById(R.id.navShareAppLayout).setOnClickListener(v -> {
-//            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-//            shareIntent.setType("text/plain");
-//            shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this job portal app: https://play.google.com/");
-//            startActivity(Intent.createChooser(shareIntent, "Share via"));
-//        });
+//        experienceDropdown = findViewById(R.id.experienceDropdown);
 
-
-
-        findViewById(R.id.navLogoutLayout).setOnClickListener(v -> {
-            auth.signOut();
-            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
-            finishAffinity();
-            startActivity(new Intent(this, LoginActivity.class));
-        });
+//        String[] experienceOptions = {
+//                "Fresher", "0 to 1 year", "1 to 2 years", "2 to 3 years",
+//                "3 to 5 years", "5 to 7 years", "7 to 10 years", "10+ years"
+//        };
+//
+//        ArrayAdapter<String> adapter1= new ArrayAdapter<>(
+//                this,
+//                android.R.layout.simple_dropdown_item_1line,
+//                experienceOptions
+//        );
+//        experienceDropdown.setAdapter(adapter1);
 
 
         loadUserProfile();
         setupBottomNav();
-
     }
 
     private void loadUserProfile() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            String uid = user.getUid();
-
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
             databaseRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-                        String name = snapshot.child("name").getValue(String.class);
-                        String email = snapshot.child("email").getValue(String.class);
+                        editName.setText(snapshot.child("name").getValue(String.class));
+                        editEmail.setText(snapshot.child("email").getValue(String.class));
+                        editBio.setText(snapshot.child("bio").getValue(String.class));
+                        editEducation.setText(snapshot.child("education").getValue(String.class));
+                        autoCompleteEducation.setText(snapshot.child("experience").getValue(String.class));
+                        editCurrentCompany.setText(snapshot.child("companyName").getValue(String.class));
+                        editDesignation.setText(snapshot.child("designation").getValue(String.class));
+                        editCurrentSalary.setText(snapshot.child("currentSalary").getValue(String.class));
+                        editSkills.setText(snapshot.child("skills").getValue(String.class));
+                        editJobDescription.setText(snapshot.child("jobDescription").getValue(String.class));
+//                        resumeFilenameText.setText(snapshot.child("resumeFileName").getValue(String.class));
 
-                        nameEditText.setText(name != null ? name : "User Name");
-                        emailEditText.setText(email != null ? email : "user@gmail.com");
-
-                        String bio = snapshot.child("bio").getValue(String.class);
-                        String education = snapshot.child("education").getValue(String.class);
-                        String profileImageUrl = snapshot.child("profileImage").getValue(String.class);
-                        String resumeUrl = snapshot.child("resumeUrl").getValue(String.class);
                         String resumeFileName = snapshot.child("resumeFileName").getValue(String.class);
 
-                        bioEditText.setText(bio != null ? bio : "");
-                        educationEditText.setText(education != null ? education : "");
-                        resumeFilenameText.setText(resumeFileName != null ? resumeFileName : "No resume uploaded");
+                        if (resumeFileName != null && !resumeFileName.isEmpty()) {
+                            resumeFilenameText.setText(resumeFileName);
+                            resumeFilenameText.setTextColor(ContextCompat.getColor(ProfileActivity.this, R.color.resume_green));
+                            resumeFilenameText.setOnClickListener(null);
+                            resumeFilenameText.setPaintFlags(resumeFilenameText.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                        } else {
+                            resumeFilenameText.setText("Resume not uploaded yet");
+                            resumeFilenameText.setTextColor(ContextCompat.getColor(ProfileActivity.this, R.color.gray));
+                            resumeFilenameText.setPaintFlags(resumeFilenameText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                            resumeFilenameText.setOnClickListener(v -> openResumePicker());
+                        }
 
+                        String profileImageUrl = snapshot.child("profileImage").getValue(String.class);
                         if (profileImageUrl != null) {
                             Glide.with(ProfileActivity.this).load(profileImageUrl).into(profileImage);
                         }
@@ -165,14 +204,19 @@ public class ProfileActivity extends AppCompatActivity {
     private void openResumePicker() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*");
-        intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"application/pdf", "application/msword"});
+        String[] mimeTypes = {
+                "application/pdf",
+                "application/msword", // .doc
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document" // .docx
+        };
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
         startActivityForResult(intent, PICK_RESUME_REQUEST);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode,@Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
             if (requestCode == PICK_IMAGE_REQUEST) {
                 selectedImageUri = data.getData();
@@ -191,77 +235,120 @@ public class ProfileActivity extends AppCompatActivity {
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        String name = Objects.requireNonNull(nameEditText.getText()).toString().trim();
-        String bio = Objects.requireNonNull(bioEditText.getText()).toString().trim();
-        String education = Objects.requireNonNull(educationEditText.getText()).toString().trim();
-
-        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(bio) || TextUtils.isEmpty(education)) {
-            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+        if (!validateProfileFields()) {
             return;
         }
+        databaseRef.child(uid).child("name").setValue(editName.getText().toString().trim());
+        databaseRef.child(uid).child("bio").setValue(editBio.getText().toString().trim());
+        databaseRef.child(uid).child("education").setValue(editEducation.getText().toString().trim());
+        databaseRef.child(uid).child("experience").setValue(autoCompleteEducation.getText().toString().trim());
+        databaseRef.child(uid).child("companyName").setValue(editCurrentCompany.getText().toString().trim());
+        databaseRef.child(uid).child("designation").setValue(editDesignation.getText().toString().trim());
+        databaseRef.child(uid).child("currentSalary").setValue(editCurrentSalary.getText().toString().trim());
+        databaseRef.child(uid).child("skills").setValue(editSkills.getText().toString().trim());
+        databaseRef.child(uid).child("jobDescription").setValue(editJobDescription.getText().toString().trim());
 
-        databaseRef.child(uid).child("name").setValue(name);
-        databaseRef.child(uid).child("bio").setValue(bio);
-        databaseRef.child(uid).child("education").setValue(education);
-
-        // Track how many uploads are completed
-        boolean isImageUploading = selectedImageUri != null;
-        boolean isResumeUploading = selectedResumeUri != null;
-
-        if (isImageUploading) {
+        if (selectedImageUri != null) {
             StorageReference imageRef = storageRef.child("profile_images/" + uid + ".jpg");
-            imageRef.putFile(selectedImageUri).addOnSuccessListener(taskSnapshot ->
-                    imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                        databaseRef.child(uid).child("profileImage").setValue(uri.toString());
-                        if (!isResumeUploading) {
-                            Toast.makeText(this, "Profile saved", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-            );
+            imageRef.putFile(selectedImageUri)
+                    .addOnSuccessListener(taskSnapshot -> imageRef.getDownloadUrl().addOnSuccessListener(uri ->
+                            databaseRef.child(uid).child("profileImage").setValue(uri.toString())))
+                    .addOnFailureListener(e -> Toast.makeText(this, "Image upload failed: " + e.getMessage(), Toast.LENGTH_LONG).show());
         }
 
-        if (isResumeUploading) {
+        if (selectedResumeUri != null) {
             String fileName = getFileNameFromUri(selectedResumeUri);
-            StorageReference resumeRef = storageRef.child("resumes/" + fileName);
-
-            resumeRef.putFile(selectedResumeUri).addOnSuccessListener(taskSnapshot ->
-                    resumeRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            StorageReference resumeRef = storageRef.child("resumes/" + uid + "/" + fileName);
+            resumeRef.putFile(selectedResumeUri)
+                    .addOnSuccessListener(taskSnapshot -> resumeRef.getDownloadUrl().addOnSuccessListener(uri -> {
                         databaseRef.child(uid).child("resumeUrl").setValue(uri.toString());
                         databaseRef.child(uid).child("resumeFileName").setValue(fileName);
                         resumeFilenameText.setText(fileName);
-                        Toast.makeText(this, "Profile saved", Toast.LENGTH_SHORT).show();
-                    })
-            );
+                        Toast.makeText(this, "Resume uploaded", Toast.LENGTH_SHORT).show();
+                    }))
+                    .addOnFailureListener(e -> Toast.makeText(this, "Resume upload failed: " + e.getMessage(), Toast.LENGTH_LONG).show());
         }
 
-        // If nothing to upload
-        if (!isImageUploading && !isResumeUploading) {
-            Toast.makeText(this, "Profile saved", Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(this, "Profile saved", Toast.LENGTH_SHORT).show();
     }
 
-    private void setupBottomNav() {
-        BottomNavigationView nav = findViewById(R.id.bottomNavigation);
-        nav.setSelectedItemId(R.id.nav_profile);
-        nav.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.nav_home:
-                    startActivity(new Intent(this, MainActivity.class));
-                    return true;
-                case R.id.nav_explore:
-                    startActivity(new Intent(this, ExploreActivity.class));
-                    return true;
-                case R.id.nav_bookmark:
-                    startActivity(new Intent(this, BookmarkActivity.class));
-                    return true;
-                case R.id.nav_chat:
-                    startActivity(new Intent(this, ChatActivity.class));
-                    return true;
-            }
-            return false;
-        });
+    private boolean validateProfileFields() {
+        boolean isValid = true;
+
+        if (editBio.getText().toString().trim().isEmpty()) {
+            editBio.setError("Please enter your bio");
+            isValid = false;
+        } else {
+            editBio.setError(null);
+        }
+
+        if (editEducation.getText().toString().trim().isEmpty()) {
+            editEducation.setError("Please enter your education");
+            isValid = false;
+        } else {
+            editEducation.setError(null);
+        }
+
+        if (autoCompleteEducation.getText().toString().trim().isEmpty()) {
+            autoCompleteEducation.setError("Please select your experience");
+            isValid = false;
+        } else {
+            autoCompleteEducation.setError(null);
+        }
+
+        if (editCurrentCompany.getText().toString().trim().isEmpty()) {
+            editCurrentCompany.setError("Please enter current company");
+            isValid = false;
+        } else {
+            editCurrentCompany.setError(null);
+        }
+
+        if (editDesignation.getText().toString().trim().isEmpty()) {
+            editDesignation.setError("Please enter designation");
+            isValid = false;
+        } else {
+            editDesignation.setError(null);
+        }
+
+        String salary = editCurrentSalary.getText().toString().trim();
+        if (salary.isEmpty()) {
+            editCurrentSalary.setError("Please enter salary");
+            isValid = false;
+        } else if (!salary.matches("\\d+")) {
+            editCurrentSalary.setError("Salary must be a number");
+            isValid = false;
+        } else {
+            editCurrentSalary.setError(null);
+        }
+
+        if (editSkills.getText().toString().trim().isEmpty()) {
+            editSkills.setError("Please enter your skills");
+            isValid = false;
+        } else {
+            editSkills.setError(null);
+        }
+
+        if (editJobDescription.getText().toString().trim().isEmpty()) {
+            editJobDescription.setError("Please enter job description");
+            isValid = false;
+        } else {
+            editJobDescription.setError(null);
+        }
+
+        if (resumeFilenameText.getText().toString().trim().isEmpty()
+                || resumeFilenameText.getText().toString().equalsIgnoreCase("No file selected")
+                || selectedResumeUri == null) {
+            showSnackbar("Please upload all fields.");
+            isValid = false;
+        }
+
+        return isValid;
     }
+
+    private void showSnackbar(String message) {
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
+    }
+
 
     private String getFileNameFromUri(Uri uri) {
         String result = null;
@@ -275,23 +362,34 @@ public class ProfileActivity extends AppCompatActivity {
                 cursor.close();
             }
         }
-
         if (result == null) {
             result = uri.getLastPathSegment();
         }
-
         return result;
     }
 
+    private void setupBottomNav() {
+        BottomNavigationView nav = findViewById(R.id.bottomNavigation);
+        nav.setSelectedItemId(R.id.nav_profile);
+        nav.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.nav_home:
+                    startActivity(new Intent(this, MainActivity.class)); return true;
+                case R.id.nav_explore:
+                    startActivity(new Intent(this, ExploreActivity.class)); return true;
+                case R.id.nav_bookmark:
+                    startActivity(new Intent(this, BookmarkActivity.class)); return true;
+                case R.id.nav_chat:
+                    startActivity(new Intent(this, ChatActivity.class)); return true;
+            }
+            return false;
+        });
+    }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent);
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
-
 }
-

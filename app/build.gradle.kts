@@ -53,7 +53,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.firebase:firebase-storage")
-    implementation ("com.google.firebase:firebase-messaging:23.4.1")
+    implementation ("com.google.firebase:firebase-messaging:24.1.0")
     implementation ("com.android.volley:volley:1.2.1")
     implementation ("com.google.firebase:firebase-functions:20.3.1")
 
@@ -84,6 +84,7 @@ dependencies {
     implementation(libs.googleid)
     implementation(libs.androidx.core)
     implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.coordinatorlayout)
 
     // Testing
     testImplementation(libs.junit)

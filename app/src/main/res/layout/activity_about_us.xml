@@ -32,7 +32,7 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/logo_smile_job"
+                android:src="@drawable/samarth"
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp" />
 
@@ -40,7 +40,7 @@
                 android:id="@+id/appName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Smile Job Portal App"
+                android:text="Samarth Job Portal App"
                 android:textAlignment="center"
                 android:textSize="22sp"
                 android:textStyle="bold"
@@ -68,7 +68,7 @@
                 android:id="@+id/contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="\nContact us:  info.smilejobs@gmail.com"
+                android:text="\nContact us:  info.samarthjob@gmail.com"
                 android:textSize="14sp"
                 android:textAlignment="center"
                  />

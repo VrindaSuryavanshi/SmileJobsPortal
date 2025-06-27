@@ -49,14 +49,14 @@ public class AppliedJobAdapter extends RecyclerView.Adapter<AppliedJobAdapter.Ap
         holder.dateApplied.setText("Applied on: " + job.dateApplied);
         holder.status.setText("Status: " + job.status);
 
-        holder.viewResume.setOnClickListener(v -> {
-            if (job.resumeUrl != null && !job.resumeUrl.isEmpty()) {
-                @SuppressLint("UnsafeImplicitIntentLaunch") Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(job.resumeUrl));
-                context.startActivity(intent);
-            } else {
-                Toast.makeText(context, "Resume not available", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        holder.viewResume.setOnClickListener(v -> {
+//            if (job.resumeUrl != null && !job.resumeUrl.isEmpty()) {
+//                @SuppressLint("UnsafeImplicitIntentLaunch") Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(job.resumeUrl));
+//                context.startActivity(intent);
+//            } else {
+//                Toast.makeText(context, "Resume not available", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     @Override
@@ -65,7 +65,7 @@ public class AppliedJobAdapter extends RecyclerView.Adapter<AppliedJobAdapter.Ap
     }
 
     public static class AppliedJobViewHolder extends RecyclerView.ViewHolder {
-        TextView title, company, location, salary, jobType, model, dateApplied, viewResume, status;
+        TextView title, company, location, salary, jobType, model, dateApplied, status;
 
         public AppliedJobViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,7 +76,7 @@ public class AppliedJobAdapter extends RecyclerView.Adapter<AppliedJobAdapter.Ap
             jobType = itemView.findViewById(R.id.applied_time);
             model = itemView.findViewById(R.id.applied_model);
             dateApplied = itemView.findViewById(R.id.applied_date);
-            viewResume = itemView.findViewById(R.id.applied_resume);
+//            viewResume = itemView.findViewById(R.id.applied_resume);
             status = itemView.findViewById(R.id.applied_status);
         }
     }

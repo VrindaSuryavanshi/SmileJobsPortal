@@ -1,0 +1,17 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Shadow layer -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#33000000" /> <!-- Light shadow -->
+            <corners android:radius="16dp"/>
+        </shape>
+    </item>
+
+    <!-- Foreground card layer -->
+    <item android:left="2dp" android:right="2dp" android:top="2dp" android:bottom="2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#f9f3fa" />
+            <corners android:radius="16dp"/>
+        </shape>
+    </item>
+</layer-list>

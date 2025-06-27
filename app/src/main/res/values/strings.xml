@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmileJobPortal</string>
+    <string name="app_name">SamarthJob</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="text1">Fill your information below or\nregister with your social account</string>
@@ -15,5 +15,12 @@
         Travel Allowance \n
         ESI(Employee Self Insurance)
     </string>
+    <string-array name="job_filter_options">
+        <item>All</item>
+        <item>Last 24 hours</item>
+        <item>Last 7 days</item>
+        <item>Last 15 days</item>
+    </string-array>
+
 
 </resources>

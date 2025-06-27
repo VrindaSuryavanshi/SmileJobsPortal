@@ -166,10 +166,12 @@
             android:id="@+id/CandidateListByHrBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Candidate List Contacted By Hr"
+            android:text=""
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:drawableStart="@drawable/ic_user_panel"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="12dp"
+            android:enabled="false" />
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/logoutBtn"

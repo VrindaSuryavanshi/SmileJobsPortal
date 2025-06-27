@@ -9,7 +9,7 @@
             android:id="@+id/websiteTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SmileJobs"
+            android:text="SamarthJob"
             android:textColor="@color/purple"
             android:textStyle="bold"
             android:textSize="25sp"

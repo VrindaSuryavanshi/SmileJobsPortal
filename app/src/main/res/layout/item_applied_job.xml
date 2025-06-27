@@ -121,16 +121,16 @@
             android:layout_marginTop="4dp" />
 
         <!-- View Resume Button -->
-        <TextView
-            android:id="@+id/applied_resume"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View Resume"
-            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
-            android:textColor="@color/purple"
-            android:background="?attr/selectableItemBackground"
-            android:padding="8dp"
-            android:layout_marginTop="8dp" />
+<!--        <TextView-->
+<!--            android:id="@+id/applied_resume"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="View Resume"-->
+<!--            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"-->
+<!--            android:textColor="@color/purple"-->
+<!--            android:background="?attr/selectableItemBackground"-->
+<!--            android:padding="8dp"-->
+<!--            android:layout_marginTop="8dp" />-->
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

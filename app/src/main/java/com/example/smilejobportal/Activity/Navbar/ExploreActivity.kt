@@ -12,6 +12,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.smilejobportal.Activity.MainActivity
+import com.example.smilejobportal.Activity.SearchActivity
 import com.example.smilejobportal.Adapter.CategoryAdapter
 import com.example.smilejobportal.Adapter.JobExploreAdapter
 import com.example.smilejobportal.R
@@ -37,6 +38,10 @@ class ExploreActivity : AppCompatActivity() {
                 insets
             }
 
+            binding.btnSearchIcon.setOnClickListener {
+                startActivity(Intent(this, SearchActivity::class.java))
+
+            }
             WindowCompat.setDecorFitsSystemWindows(window, false)
 
             initRecent("0")
@@ -56,6 +61,15 @@ class ExploreActivity : AppCompatActivity() {
             }
             binding.recyclerViewExplore.adapter = JobExploreAdapter(filtered)
             binding.progressBarCategoryExplore.visibility = View.GONE
+
+            if (filtered.isEmpty()) {
+                binding.layoutNoJobs.visibility = View.VISIBLE
+                binding.recyclerViewExplore.visibility = View.GONE
+            } else {
+                binding.layoutNoJobs.visibility = View.GONE
+                binding.recyclerViewExplore.visibility = View.VISIBLE
+            }
+
         }
     }
 
@@ -106,4 +120,12 @@ class ExploreActivity : AppCompatActivity() {
                 false
             })
         }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, MainActivity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
+        finish()
+    }
     }

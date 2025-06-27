@@ -165,15 +165,14 @@ public class AdminUpdateJobActivity extends AppCompatActivity {
             case R.id.users_list:
                 startActivity(new Intent(this, AllUsersActivity.class));
                 return true;
-            case R.id.contacted_by_hr:
-                startActivity(new Intent(this, AdminContactedByHrCallActivity.class));
+            case R.id.go_to_dashboard:
+                startActivity(new Intent(this, AdminDashboardActivity.class));
                 return true;
             case R.id.add_new_job:
                 startActivity(new Intent(this, AdminAddJobDataActivity.class));
                 return true;
 
-                case R.id.logout:
-                finishAffinity();
+            case R.id.logout:
                 startActivity(new Intent(this, LoginActivity.class));
                 return true;
 
