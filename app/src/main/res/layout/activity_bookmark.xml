@@ -32,15 +32,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="64dp"
                 android:layout_marginBottom="16dp"
                 android:visibility="gone"
                 android:padding="16dp">
 
                 <ImageView
                     android:id="@+id/imgNoJobs"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="64dp"
                     app:srcCompat="@drawable/no_bookmark"
                     android:contentDescription="No Jobs Illustration"
                     android:layout_marginBottom="16dp" />
@@ -50,8 +51,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="No bookmarks yet"
-                    android:textSize="16sp"
-                    android:textColor="#808080"
+                    android:textSize="18sp"
+                    android:textStyle="italic"
+                    android:textColor="@android:color/darker_gray"
                     android:gravity="center" />
             </LinearLayout>
 
